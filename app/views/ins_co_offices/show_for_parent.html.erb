@@ -1,6 +1,4 @@
-<% parent = InsuranceCo.find(@ins_co_offices[0].parent_co) %>
-
-<h1>Listing of offices for <%= parent.name %></h1>
+<h1>Listing of offices for <%= @insurance_co.name %></h1>
 
 <table border="1">
   <tr>
@@ -15,7 +13,8 @@
     <th></th>
   </tr>
 
-<% @ins_co_offices.each do |ins_co_office| %>
+  <% if @ins_co_offices.length > 0 then %>
+  <% @ins_co_offices.each do |ins_co_office| %>
   <tr>
     <td><%= ins_co_office.name %></td>
     <td><%= ins_co_office.tel_nr %></td>
@@ -27,10 +26,11 @@
     <td><%= link_to 'Edit', edit_ins_co_office_path(ins_co_office) %></td>
     <td><%= link_to 'Destroy', ins_co_office, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
-<% end %>
+  <% end %>
+  <% end %>
 </table>
 
 <br />
 
-<%= link_to  parent.name, parent %> |
+<%= link_to   @insurance_co.name,  @insurance_co %> |
 <%= link_to 'New office', new_ins_co_office_path %>

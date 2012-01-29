@@ -12,7 +12,8 @@ class InsCoOfficesController < ApplicationController
 
   # GET /ins_co_offices/for_co/<co :id>
   def show_for_parent
-    @ins_co_offices = InsCoOffice.find_all_by_parent_co(params[:id])
+    @insurance_co = InsuranceCo.find(params[:id])
+    @ins_co_offices = InsCoOffice.find_all_by_parent_co(@insurance_co.id)
 
     respond_to do |format|
       format.html # show_for_parent.html.erb
