@@ -33,4 +33,4 @@
 <br />
 
 <%= link_to   @insurance_co.name,  @insurance_co %> |
-<%= link_to 'New office', new_ins_co_office_path %>
+<%= link_to 'New office', '/ins_co_offices/new_for_co/' + @insurance_co.id.to_s %>

@@ -1,0 +1,43 @@
+<h1>Create a New Office for <%= @parent_co.name %></h1>
+
+<%= form_for(@ins_co_office) do |f| %>
+    <% if @ins_co_office.errors.any? %>
+        <div id="error_explanation">
+            <h2><%= pluralize(@ins_co_office.errors.count, "error") %> prohibited this ins_co_office from being saved:</h2>
+            <ul>
+            <% @ins_co_office.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+            </ul>
+        </div>
+    <% end %>
+
+    <div class="field">
+        <%= f.label :name %><br />
+        <%= f.text_field :name %>
+    </div>
+    <div class="field">
+        <%= f.label :tel_nr %><br />
+        <%= f.text_field :tel_nr %>
+    </div>
+    <div class="field">
+        <%= f.label :address_1 %><br />
+        <%= f.text_field :address_1 %>
+    </div>
+    <div class="field">
+        <%= f.label :address_2 %><br />
+        <%= f.text_field :address_2 %>
+    </div>
+    <div class="field">
+        <%= f.label :city %><br />
+        <%= f.text_field :city %>
+    </div>
+    <div class="field">
+        <%= f.label :state %><br />
+        <%= f.text_field :state %>
+    </div>
+    <%= f.hidden_field :parent_co, :value => @parent_co.id %>
+    <div class="actions">
+        <%= f.submit %>
+    </div>
+<% end %>

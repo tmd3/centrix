@@ -5,6 +5,8 @@ Centrix::Application.routes.draw do
 
   match '/ins_co_offices/for_co/:id' => 'ins_co_offices#show_for_parent'
 
+  match '/ins_co_offices/new_for_co/:id' => 'ins_co_offices#new_for_parent'
+
   root :to => "insurance_cos#index"
 
   # The priority is based upon order of creation:

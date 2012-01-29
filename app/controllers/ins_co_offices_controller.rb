@@ -43,6 +43,17 @@ class InsCoOfficesController < ApplicationController
     end
   end
 
+  # GET /ins_co_offices/new_for_parent
+  #
+  def new_for_parent
+
+    @parent_co = InsuranceCo.find(params[:id])
+    @ins_co_office = InsCoOffice.new
+    render 'new_for_parent'
+
+  end;
+
+
   # GET /ins_co_offices/1/edit
   def edit
     @ins_co_office = InsCoOffice.find(params[:id])

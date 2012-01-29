@@ -13,7 +13,7 @@
 
 <%= link_to 'Edit', edit_insurance_co_path(@insurance_co) %> |
 <%= link_to 'Offices', "/ins_co_offices/for_co/#{@insurance_co.id}" %> |
-<%= link_to 'New office', new_ins_co_office_path %>
+<%= link_to 'New office', '/ins_co_offices/new_for_co/' + @insurance_co.id.to_s %>
 <br />
 <br />
 <%= link_to 'All Insurance Cos', insurance_cos_path %>
