@@ -1,0 +1,41 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @ins_co_office.name %>
+</p>
+
+<p>
+  <b>Tel nr:</b>
+  <%= @ins_co_office.tel_nr %>
+</p>
+
+<p>
+  <b>Address 1:</b>
+  <%= @ins_co_office.address_1 %>
+</p>
+
+<p>
+  <b>Address 2:</b>
+  <%= @ins_co_office.address_2 %>
+</p>
+
+<p>
+  <b>City:</b>
+  <%= @ins_co_office.city %>
+</p>
+
+<p>
+  <b>State:</b>
+  <%= @ins_co_office.state %>
+</p>
+
+<p>
+  <b>Parent co:</b>
+  <% parent = InsuranceCo.find(@ins_co_office.parent_co) %>
+  <%= link_to parent.name, parent %>
+</p>
+
+
+<%= link_to 'Edit', edit_ins_co_office_path(@ins_co_office) %> |
+<%= link_to 'Back', ins_co_offices_path %>

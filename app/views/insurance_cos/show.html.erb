@@ -1,0 +1,16 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @insurance_co.name %>
+</p>
+
+<p>
+  <b>Url:</b>
+  <%= @insurance_co.url %>
+</p>
+
+
+<%= link_to 'Edit', edit_insurance_co_path(@insurance_co) %> |
+<%= link_to 'Insurance Cos', insurance_cos_path %> |
+<%= link_to 'Offices', "/ins_co_offices/for_co/#{@insurance_co.id}" %>

@@ -1,0 +1,21 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  url: MyString
+
+two:
+  name: MyString
+  url: MyString
+
+# == Schema Information
+#
+# Table name: insurance_cos
+#
+#  id         :integer         not null, primary key
+#  name       :string(255)
+#  url        :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#
+

@@ -1,0 +1,38 @@
+<h1>Listing ins_co_offices</h1>
+
+<table border="1">
+  <tr>
+    <th>Name</th>
+    <th>Tel Nr</th>
+    <th>Address 1</th>
+    <th>Address 2</th>
+    <th>City</th>
+    <th>State</th>
+    <th>Parent Co</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% offices_sorted_by_name = InsCoOffice.find(:all,:order=>'name') %>
+<% offices_sorted_by_name.each do |ins_co_office| %>
+  <tr>
+    <td><%= ins_co_office.name %></td>
+    <td><%= ins_co_office.tel_nr %></td>
+    <td><%= ins_co_office.address_1 %></td>
+    <td><%= ins_co_office.address_2 %></td>
+    <td><%= ins_co_office.city %></td>
+    <td><%= ins_co_office.state %></td>
+    <% parent = InsuranceCo.find(ins_co_office.parent_co) %>
+    <td><%= link_to parent.name, parent %></td>
+    <td><%= link_to 'Show', ins_co_office %></td>
+    <td><%= link_to 'Edit', edit_ins_co_office_path(ins_co_office) %></td>
+    <td><%= link_to 'Destroy', ins_co_office, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Insurance Co Office', new_ins_co_office_path %> |
+<%= link_to 'All Insurance Cos', insurance_cos_path %>
