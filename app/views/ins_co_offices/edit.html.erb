@@ -1,6 +1,13 @@
-<h1>Editing ins_co_office</h1>
+<h1>Editing <%= @ins_co_office.name %></h1>
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @ins_co_office %> |
-<%= link_to 'Back', ins_co_offices_path %>
+<br />
+<br />
+
+<%= link_to 'Show ' + @ins_co_office.name, @ins_co_office %>
+
+<br />
+<br />
+
+<%= link_to 'All Insurance Company Offices', ins_co_offices_path %>

@@ -1,0 +1,39 @@
+<%= form_for(@rep) do |f| %>
+  <% if @rep.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@rep.errors.count, "error") %> prohibited this rep from being saved:</h2>
+
+      <ul>
+      <% @rep.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :tel_nr %><br />
+    <%= f.text_field :tel_nr %>
+  </div>
+  <div class="field">
+    <%= f.label :fax_nr %><br />
+    <%= f.text_field :fax_nr %>
+  </div>
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.text_field :email %>
+  </div>
+  <div class="field">
+    <%= f.label :office %><br />
+    <% ins_co_office_names_and_ids = [] %>
+    <% InsCoOffice.all.each { |office| ins_co_office_names_and_ids.push( [ office.name, office.id+0 ] ) } %>
+    <%= select( :rep, :office, ins_co_office_names_and_ids ) %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

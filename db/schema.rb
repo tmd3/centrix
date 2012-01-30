@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120128195425) do
+ActiveRecord::Schema.define(:version => 20120130183950) do
 
   create_table "ins_co_offices", :force => true do |t|
     t.string   "name"
@@ -32,5 +32,15 @@ ActiveRecord::Schema.define(:version => 20120128195425) do
   end
 
   add_index "insurance_cos", ["url"], :name => "index_insurance_cos_on_url", :unique => true
+
+  create_table "reps", :force => true do |t|
+    t.string   "name"
+    t.string   "tel_nr"
+    t.string   "fax_nr"
+    t.string   "email"
+    t.integer  "office"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

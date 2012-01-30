@@ -13,7 +13,7 @@ class InsuranceCo < ActiveRecord::Base
 
     attr_accessible :name, :url;
 
-    url_regex =  /^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$/ix;
+    url_regex =  /^((http|https):\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$/ix;
 
     validates :name, :presence => true;
 

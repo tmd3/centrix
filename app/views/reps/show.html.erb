@@ -1,0 +1,36 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @rep.name %>
+</p>
+
+<p>
+  <b>Tel nr:</b>
+  <%= @rep.tel_nr %>
+</p>
+
+<p>
+  <b>Fax nr:</b>
+  <%= @rep.fax_nr %>
+</p>
+
+<p>
+  <b>Email:</b>
+  <%= @rep.email %>
+</p>
+
+<p>
+  <b>Office:</b>
+  <%= InsCoOffice.find(@rep.office).name %>
+</p>
+
+
+<%= link_to 'Edit', edit_rep_path(@rep) %>
+
+<br />
+<br />
+
+<%= link_to 'All Ins. Companies', insurance_cos_path %> |
+<%= link_to 'All Ins. Co.Offices', ins_co_offices_path %> |
+<%= link_to 'All Ins. Co.Representatives', reps_path %>

@@ -1,0 +1,38 @@
+<h1>All Representatives For All Companies</h1>
+
+<table border="1">
+  <tr>
+    <th>Name</th>
+    <th>Tel nr</th>
+    <th>Fax nr</th>
+    <th>Email</th>
+    <th>Office</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @reps.each do |rep| %>
+  <tr>
+    <td><%= rep.name %></td>
+    <td><%= rep.tel_nr %></td>
+    <td><%= rep.fax_nr %></td>
+    <td><%= rep.email %></td>
+    <td><%= InsCoOffice.find(rep.office).name %></td>
+    <td><%= link_to 'Show', rep %></td>
+    <td><%= link_to 'Edit', edit_rep_path(rep) %></td>
+    <td><%= link_to 'Destroy', rep, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Rep', new_rep_path %>
+
+<br />
+<br />
+
+<%= link_to 'All Ins. Companies', insurance_cos_path %> |
+<%= link_to 'All Ins. Co. Offices', ins_co_offices_path %>
+

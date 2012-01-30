@@ -35,6 +35,7 @@
         <%= f.text_field :state %>
     </div>
     <div class="field">
+        <%= f.label :parent_co %><br />
         <% ins_co_names_and_ids = [] %>
         <% InsuranceCo.all.each { |co| ins_co_names_and_ids.push( [ co.name, co.id+0 ] ) } %>
         <%= select( :ins_co_office, :parent_co, ins_co_names_and_ids ) %>

@@ -1,4 +1,6 @@
 Centrix::Application.routes.draw do
+  resources :reps
+
   resources :insurance_cos
 
   resources :ins_co_offices
