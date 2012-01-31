@@ -40,6 +40,8 @@
         <% InsuranceCo.all.each { |co| ins_co_names_and_ids.push( [ co.name, co.id+0 ] ) } %>
         <%= select( :ins_co_office, :parent_co, ins_co_names_and_ids ) %>
     </div>
+    <br />
+    <br />
     <div class="actions">
         <%= f.submit %>
     </div>

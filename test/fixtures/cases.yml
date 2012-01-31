@@ -1,0 +1,32 @@
+# == Schema Information
+#
+# Table name: cases
+#
+#  id         :integer         not null, primary key
+#  claim_nr   :string(255)
+#  rep        :integer
+#  insuree    :integer
+#  product    :integer
+#  status     :string(255)
+#  engineer   :integer
+#  created_at :datetime
+#  updated_at :datetime
+#
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  claim_nr: MyString
+  rep: 1
+  insuree: 1
+  product: 1
+  status: MyString
+  engineer: 1
+
+two:
+  claim_nr: MyString
+  rep: 1
+  insuree: 1
+  product: 1
+  status: MyString
+  engineer: 1

@@ -33,6 +33,8 @@
     <% InsCoOffice.all.each { |office| ins_co_office_names_and_ids.push( [ office.name, office.id+0 ] ) } %>
     <%= select( :rep, :office, ins_co_office_names_and_ids ) %>
   </div>
+  <br />
+  <br />
   <div class="actions">
     <%= f.submit %>
   </div>

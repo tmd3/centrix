@@ -1,3 +1,11 @@
+<b>
+<%= link_to 'Ins. Companies', insurance_cos_path %> |
+<%= link_to 'Ins. Co. Offices', ins_co_offices_path %> |
+<%= link_to 'Ins. Co. Reps', reps_path %>
+</b>
+<br />
+<br />
+
 <h1>Editing <%= @insurance_co.name %></h1>
 
 <%= render 'form' %>
@@ -5,8 +13,3 @@
 <br />
 
 <%= link_to @insurance_co.name, @insurance_co %>
-
-<br />
-<br />
-
-<%= link_to 'All Insurance Companies', insurance_cos_path %>
