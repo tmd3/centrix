@@ -1,0 +1,48 @@
+<b>
+<%= link_to 'Cases', kases_path %> |
+<%= link_to 'Ins. Companies', insurance_cos_path %> |
+<%= link_to 'Ins. Co. Offices', ins_co_offices_path %> |
+<%= link_to 'Ins. Co. Reps', reps_path %>
+</b>
+<br />
+<br />
+
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Case ID:</b>
+  <%= @kase.id %>
+</p>
+
+<p>
+  <b>Claim nr:</b>
+  <%= @kase.claim_nr %>
+</p>
+
+<p>
+  <b>Rep:</b>
+  <%= Rep.find(@kase.rep).name %>
+</p>
+
+<p>
+  <b>Insuree:</b>
+  <%= @kase.insuree %>
+</p>
+
+<p>
+  <b>Product:</b>
+  <%= @kase.product %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%= @kase.status %>
+</p>
+
+<p>
+  <b>Engineer:</b>
+  <%= @kase.engineer %>
+</p>
+
+
+<%= link_to 'Edit', edit_kase_path(@kase) %>

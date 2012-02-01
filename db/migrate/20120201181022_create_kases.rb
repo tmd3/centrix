@@ -1,6 +1,6 @@
-class CreateCases < ActiveRecord::Migration
+class CreateKases < ActiveRecord::Migration
   def self.up
-    create_table :cases do |t|
+    create_table :kases do |t|
       t.string :claim_nr
       t.integer :rep
       t.integer :insuree
@@ -13,6 +13,6 @@ class CreateCases < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :cases
+    drop_table :kases
   end
 end

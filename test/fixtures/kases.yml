@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: cases
+# Table name: kases
 #
 #  id         :integer         not null, primary key
 #  claim_nr   :string(255)

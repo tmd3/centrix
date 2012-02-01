@@ -1,5 +1,6 @@
 Centrix::Application.routes.draw do
-  resources :cases
+
+  resources :kases
 
   resources :reps
 

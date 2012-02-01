@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: cases
+# Table name: kases
 #
 #  id         :integer         not null, primary key
 #  claim_nr   :string(255)
@@ -13,5 +13,11 @@
 #  updated_at :datetime
 #
 
-class Case < ActiveRecord::Base
+require 'test_helper'
+
+class KaseTest < ActiveSupport::TestCase
+  # Replace this with your real tests.
+  test "the truth" do
+    assert true
+  end
 end
