@@ -40,6 +40,11 @@
 </p>
 
 <p>
+  <b>Zipcode:</b>
+  <%= @ins_co_office.zipcode %>
+</p>
+
+<p>
   <b>Parent co:</b>
   <% parent = InsuranceCo.find(@ins_co_office.parent_co) %>
   <%= link_to parent.name, parent %>

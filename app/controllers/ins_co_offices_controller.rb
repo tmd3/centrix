@@ -66,7 +66,7 @@ class InsCoOfficesController < ApplicationController
 
     respond_to do |format|
       if @ins_co_office.save
-        format.html { redirect_to(@ins_co_office, :notice => 'Ins co office was successfully created.') }
+        format.html { redirect_to(@ins_co_office, :notice => 'Office was successfully created.') }
         format.xml  { render :xml => @ins_co_office, :status => :created, :location => @ins_co_office }
       else
         format.html { render :action => "new" }
@@ -82,7 +82,7 @@ class InsCoOfficesController < ApplicationController
 
     respond_to do |format|
       if @ins_co_office.update_attributes(params[:ins_co_office])
-        format.html { redirect_to(@ins_co_office, :notice => 'Ins co office was successfully updated.') }
+        format.html { redirect_to(@ins_co_office, :notice => 'Office was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

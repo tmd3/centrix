@@ -45,6 +45,10 @@
         <%= f.label :state %><br />
         <%= f.text_field :state %>
     </div>
+    <div class="field">
+        <%= f.label :zipcode %><br />
+        <%= f.text_field :zipcode %>
+    </div>
     <%= f.hidden_field :parent_co, :value => @parent_co.id %>
     <div class="actions">
         <%= f.submit %>

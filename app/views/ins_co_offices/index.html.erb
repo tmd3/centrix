@@ -16,6 +16,7 @@
     <th>Address 2</th>
     <th>City</th>
     <th>State</th>
+    <th>Zipcode</th>
     <th>Parent Co</th>
     <th></th>
     <th></th>
@@ -31,6 +32,7 @@
     <td><%= ins_co_office.address_2 %></td>
     <td><%= ins_co_office.city %></td>
     <td><%= ins_co_office.state %></td>
+    <td><%= ins_co_office.zipcode %></td>
     <% parent = InsuranceCo.find(ins_co_office.parent_co) %>
     <td><%= link_to parent.name, parent %></td>
     <td><%= link_to 'Show', ins_co_office %></td>

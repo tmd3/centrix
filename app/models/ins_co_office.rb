@@ -12,13 +12,13 @@
 #  address_2  :string(255)
 #  city       :string(255)
 #  state      :string(255)
+#  zipcode    :integer
 #
 
 class InsCoOffice < ActiveRecord::Base
 
-    attr_accessible :name, :tel_nr, :parent_co, :address_1, :address_2, :city, :state;
+    attr_accessible :name, :tel_nr, :parent_co, :address_1, :address_2, :city, :state, :zipcode;
 
     validates :name, :presence => true;
 
 end;
-
