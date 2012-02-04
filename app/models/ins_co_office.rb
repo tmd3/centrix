@@ -12,7 +12,7 @@
 #  address_2  :string(255)
 #  city       :string(255)
 #  state      :string(255)
-#  zipcode    :integer
+#  zipcode    :string(255)
 #
 
 class InsCoOffice < ActiveRecord::Base

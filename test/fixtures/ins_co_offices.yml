@@ -13,6 +13,7 @@ two:
   parent_co: 1
 
 
+
 # == Schema Information
 #
 # Table name: ins_co_offices
@@ -27,6 +28,6 @@ two:
 #  address_2  :string(255)
 #  city       :string(255)
 #  state      :string(255)
-#  zipcode    :integer
+#  zipcode    :string(255)
 #
 

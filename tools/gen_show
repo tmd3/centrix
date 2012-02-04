@@ -1,0 +1,271 @@
+#!/usr/bin/perl
+
+main ( \@ARGV );
+exit ( 0 );
+
+
+#===========================================================================================
+# MAIN PROGRAM
+#===========================================================================================
+
+sub    main
+{
+    #---------------------------------------------------------------------------------------
+    # PARAMETERS
+    #---------------------------------------------------------------------------------------
+
+    my    $argv_ref  =  shift;
+
+    #---------------------------------------------------------------------------------------
+    # CONSTANTS
+    #---------------------------------------------------------------------------------------
+
+    my    $nr_of_args  =  $#{$argv_ref} + 1;
+
+    #---------------------------------------------------------------------------------------
+    # LOCAL VARIABLES
+    #---------------------------------------------------------------------------------------
+
+    my    $model_file_name;
+    my    $table_name;
+
+    my    @field_names;
+
+    #---------------------------------------------------------------------------------------
+    # PROCEDURE
+    #---------------------------------------------------------------------------------------
+
+    goto  wrong_nr_of_args  if ( $nr_of_args != 1 );
+    $model_file_name  =  ${$argv_ref} [ 0 ];
+    get_table_name_and_field_names_from_annotated_model_file ( $model_file_name, \$table_name, \@field_names );
+    write_show_html_erb_file_for_table_w_fields ( $table_name, \@field_names );
+    return;
+
+    #---------------------------------------------------------------------------------------
+    # PANICS
+    #---------------------------------------------------------------------------------------
+
+wrong_nr_of_args:
+    print ( "The model file name was not seen on the command line.\n" );
+    exit ( 1 );
+
+} # end  main
+
+#===========================================================================================
+# SUBROUTINE  get_table_name_and_field_names_from_annotated_model_file
+#===========================================================================================
+
+sub    get_table_name_and_field_names_from_annotated_model_file
+{
+    #---------------------------------------------------------------------------------------
+    # PARAMETERS
+    #---------------------------------------------------------------------------------------
+
+    my    $model_file_name  =  shift;
+    my    $table_name_ref   =  shift;
+    my    $field_names_ref  =  shift;
+
+    #---------------------------------------------------------------------------------------
+    # LOCAL VARIABLES
+    #---------------------------------------------------------------------------------------
+
+    my    $field_line;
+    my    @field_line_words;
+    my    $field_line_x;
+    my    $field_name;
+    my    $first_field_line_x;
+    my    $hi_line_x;
+    my    $line_x;
+    my    $model_file_handle;
+    my    $model_file_line;
+    my    @model_file_lines;
+    my    $table_name_found;
+    my    $table_name_line;
+    my    $table_name_line_found;
+    my    @table_name_line_words;
+    my    $table_name_line_x;
+
+    #---------------------------------------------------------------------------------------
+    # PROCEDURE
+    #---------------------------------------------------------------------------------------
+
+    #
+    # READ THE MODEL FILE AND ENSURE THAT IT IS NOT EMPTY.
+    #
+    open ( $model_file_handle, "<$model_file_name" ) or goto cant_open_model_file;
+    @model_file_lines  =  <$model_file_handle>;
+    close ( $model_file_handle );
+    goto model_file_is_empty if ( @model_file_lines == 0 );
+    chomp ( @model_file_lines );
+    #
+    # ENSURE THE MODEL FILE HAS A TABLE LINE AND GET THE TABLE NAME FROM IT.
+    #
+    $hi_line_x  =  $#model_file_lines;
+    for ( $table_name_found = 0, $line_x = 0;  $line_x <= $hi_line_x;  $line_x += 1 ) {
+        $model_file_line  =  $model_file_lines [ $line_x ];
+        $table_name_line_found  =  ( $model_file_line =~ /^#  *Table name:/ );
+        if ( $table_name_line_found ) { $table_name_line = $model_file_line;  $table_name_line_x = $line_x;  last; }
+    }
+    goto model_file_does_not_contain_table_name_line if ( ! $table_name_line_found );
+    @table_name_line_words = split ( /  */, $table_name_line );
+    goto table_line_has_too_few_words if ( @table_name_line_words < 4 );
+    ${$table_name_ref}  =  @table_name_line_words [ 3 ];
+    ###print ( "Table name is \"$table_name\"\n" );
+    #
+    # SKIP EMPTY LINES AND ENSURE THAT NONEMPTY LINES FOLLOW.
+    #
+    goto model_file_ends_at_table_line if ( $table_name_line_x == $hi_line_x );
+    for ( $line_x = $table_name_line_x + 1;  $line_x <= $hi_line_x;  $line_x += 1 ) {
+        $model_file_line  =  $model_file_lines [ $line_x ];
+        ###print ( "$line_x/$hi_line_x: \"$model_file_line\"\n" );
+        last if ( $model_file_line !~ /^#$/ );
+    }
+    goto model_file_has_no_fields if ( $model_file_line =~ /^#$/ );
+    $first_field_line_x  =  $line_x;
+    #
+    # EXTRACT THE FIELD NAMES FROM THE FIELD LINES
+    #
+    ###print ( "EXTRACT THE FIELD NAMES FROM THE FIELD LINES.\n" );
+    @{$field_names_ref}  =  ( );
+    $field_line_x  =  $first_field_line_x;
+    while (1) {
+        $field_line  =  $model_file_lines [ $field_line_x ];
+        ###print ( "$line_x/$hi_line_x: \"$field_line\"\n" );
+        @field_line_words = split ( /  */, $field_line );
+        last if ( @field_line_words < 3 );
+        last if ( $field_line_words [ 0 ] ne "#" );
+        $field_name  =  $field_line_words [ 1 ];
+        ###print ( "$field_name\n" );
+        push ( @{$field_names_ref}, $field_name );
+        last if ( $field_line_x == $hi_line_x );
+        $field_line_x += 1;
+    }
+    goto model_file_has_no_fields if ( @{$field_names_ref} == 0 );
+    return;
+
+    #---------------------------------------------------------------------------------------
+    # PANICS
+    #---------------------------------------------------------------------------------------
+
+cant_open_model_file:
+    print ( "Cannot open model file $model_file_name.\n" );
+    exit ( 1 );
+model_file_is_empty:
+    print ( "Model file $model_file_name is empty.\n" );
+    exit ( 1 );
+model_file_does_not_contain_table_name_line:
+    print ( "Model file $model_file_name does not contain a table name line.\n" );
+    exit ( 1 );
+table_line_has_too_few_words:
+    print ( "Table name line \"$table_name_line\" in model file $model_file_name does not contain a table name.\n" );
+    exit ( 1 );
+model_file_ends_at_table_line:
+    print ( "Model file $model_file_name ends at the table name line.\n" );
+    exit ( 1 );
+model_file_has_no_fields:
+    print ( "Model file $model_file_name does not contain any field lines.\n" );
+    exit ( 1 );
+
+} # end  get_table_name_and_field_names_from_annotated_model_file
+
+#===========================================================================================
+# SUBROUTINE  write_show_html_erb_file_for_table_w_fields
+#===========================================================================================
+
+sub    write_show_html_erb_file_for_table_w_fields
+{
+    #---------------------------------------------------------------------------------------
+    # PARAMETERS
+    #---------------------------------------------------------------------------------------
+
+    my    $table_name       =  shift;
+    my    $field_names_ref  =  shift;
+
+    #---------------------------------------------------------------------------------------
+    # LOCAL VARIABLES
+    #---------------------------------------------------------------------------------------
+
+    my    $show_file_handle;
+    my    $field_title;
+
+    #---------------------------------------------------------------------------------------
+    # PROCEDURE
+    #---------------------------------------------------------------------------------------
+
+    open ( $show_file_handle, ">show.html.erb" ) or goto cant_open_show_file;
+    foreach my $field_name ( @{$field_names_ref} ) {
+        $field_title  =  title_for_field_name ( $field_name );
+        print $show_file_handle "<p>\n";
+        print $show_file_handle "  <b>$field_title:</b>\n";
+        print $show_file_handle "  <%= \@$table_name.$field_name %>\n";
+        print $show_file_handle "</p>\n";
+    }
+    close ( $show_file_handle );
+    return;
+
+cant_open_show_file:
+    print ( "Cannot open show file.\n" );
+    exit ( 1 );
+
+} # end  write_show_html_erb_file_for_table_w_fields
+
+#===========================================================================================
+# SUBROUTINE  title_for_field_name
+#===========================================================================================
+
+sub    title_for_field_name
+{
+    #---------------------------------------------------------------------------------------
+    # PARAMETERS
+    #---------------------------------------------------------------------------------------
+
+    my   $field_name  =  shift;
+
+    #---------------------------------------------------------------------------------------
+    # LOCAL VARIABLES
+    #---------------------------------------------------------------------------------------
+
+    my    @field_name_words;
+    my    $field_title;
+
+    #---------------------------------------------------------------------------------------
+    # PROCEDURE
+    #---------------------------------------------------------------------------------------
+
+    ###print ( "NAME: $field_name\n" );
+    @field_name_words  =  split ( /_/, $field_name );
+    $field_title  =  "";
+    foreach my $field_name_word ( @field_name_words ) {
+        ###print ( "TITLE: $field_title\n" );
+        $field_title .= ucfirst ( $field_name_word ) . " ";
+    }
+    chop ( $field_title );
+    return  $field_title;
+
+} # end  title_for_field_name
+
+#===========================================================================================
+# SUBROUTINE  chop_1st_char
+#===========================================================================================
+
+sub    chop_1st_char
+{
+    #---------------------------------------------------------------------------------------
+    # PARAMETERS
+    #---------------------------------------------------------------------------------------
+
+    my   $string_ref  =  shift;
+
+    #---------------------------------------------------------------------------------------
+    # PROCEDURE
+    #---------------------------------------------------------------------------------------
+
+    if ( length ( ${$string_ref} >= 1 ) ) {
+        ${$string_ref}  =  substr ( ${$string_ref}, 1 );
+    }
+
+} # end  chop_1st_char
+
+#===========================================================================================
+# END OF SOURCE FILE
+#===========================================================================================

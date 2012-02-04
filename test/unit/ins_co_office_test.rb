@@ -8,6 +8,7 @@ class InsCoOfficeTest < ActiveSupport::TestCase
 end
 
 
+
 # == Schema Information
 #
 # Table name: ins_co_offices
@@ -22,6 +23,6 @@ end
 #  address_2  :string(255)
 #  city       :string(255)
 #  state      :string(255)
-#  zipcode    :integer
+#  zipcode    :string(255)
 #
 

@@ -1,5 +1,7 @@
 Centrix::Application.routes.draw do
 
+  resources :manufacturers
+
   resources :kases
 
   resources :reps

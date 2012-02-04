@@ -1,0 +1,55 @@
+<%= form_for(@manufacturer) do |f| %>
+  <% if @manufacturer.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@manufacturer.errors.count, "error") %> prohibited this manufacturer from being saved:</h2>
+
+      <ul>
+      <% @manufacturer.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :brands %><br />
+    <%= f.text_field :brands %>
+  </div>
+  <div class="field">
+    <%= f.label :parent_co %><br />
+    <%= f.text_field :parent_co %>
+  </div>
+  <div class="field">
+    <%= f.label :address_1 %><br />
+    <%= f.text_field :address_1 %>
+  </div>
+  <div class="field">
+    <%= f.label :address_2 %><br />
+    <%= f.text_field :address_2 %>
+  </div>
+  <div class="field">
+    <%= f.label :phone_no %><br />
+    <%= f.text_field :phone_no %>
+  </div>
+  <div class="field">
+    <%= f.label :fax_no %><br />
+    <%= f.text_field :fax_no %>
+  </div>
+  <div class="field">
+    <%= f.label :website %><br />
+    <%= f.text_field :website %>
+  </div>
+  <div class="field">
+    <%= f.label :documents_and_manuals %><br />
+    <%= f.text_field :documents_and_manuals %>
+  </div>
+  <br />
+  <br />
+  <div class="actions">
+    <%= f.submit 'Create Manufacturer' %>
+  </div>
+<% end %>

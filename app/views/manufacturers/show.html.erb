@@ -1,0 +1,52 @@
+<%= render 'layouts/navigation_bar' %>
+
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @manufacturer.name %>
+</p>
+
+<p>
+  <b>Brands:</b>
+  <%= @manufacturer.brands %>
+</p>
+
+<p>
+  <b>Parent co:</b>
+  <%= @manufacturer.parent_co %>
+</p>
+
+<p>
+  <b>Address 1:</b>
+  <%= @manufacturer.address_1 %>
+</p>
+
+<p>
+  <b>Address 2:</b>
+  <%= @manufacturer.address_2 %>
+</p>
+
+<p>
+  <b>Phone no:</b>
+  <%= @manufacturer.phone_no %>
+</p>
+
+<p>
+  <b>Fax no:</b>
+  <%= @manufacturer.fax_no %>
+</p>
+
+<p>
+  <b>Website:</b>
+  <%= link_to @manufacturer.website, @manufacturer.website %>
+</p>
+
+<p>
+  <b>Documents and manuals:</b>
+  <%= @manufacturer.documents_and_manuals %>
+</p>
+
+
+<%= link_to 'Edit', edit_manufacturer_path(@manufacturer) %> |
+<%= link_to 'Back', manufacturers_path %>

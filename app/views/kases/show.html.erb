@@ -1,48 +1,120 @@
-<b>
-<%= link_to 'Cases', kases_path %> |
-<%= link_to 'Ins. Companies', insurance_cos_path %> |
-<%= link_to 'Ins. Co. Offices', ins_co_offices_path %> |
-<%= link_to 'Ins. Co. Reps', reps_path %>
-</b>
-<br />
-<br />
+<%= render 'layouts/navigation_bar' %>
 
 <p id="notice"><%= notice %></p>
 
 <p>
-  <b>Case ID:</b>
-  <%= @kase.id %>
+  <b>Case No:</b>
+  <%= @kase.case_no %>
 </p>
-
 <p>
-  <b>Claim nr:</b>
-  <%= @kase.claim_nr %>
+  <b>Claim No:</b>
+  <%= @kase.claim_no %>
 </p>
-
 <p>
   <b>Rep:</b>
-  <%= Rep.find(@kase.rep).name %>
+  <% rep = Rep.find(@kase.rep) %>
+  <%= link_to rep.name, rep %>
 </p>
-
-<p>
-  <b>Insuree:</b>
-  <%= @kase.insuree %>
-</p>
-
-<p>
-  <b>Product:</b>
-  <%= @kase.product %>
-</p>
-
 <p>
   <b>Status:</b>
   <%= @kase.status %>
 </p>
-
 <p>
-  <b>Engineer:</b>
-  <%= @kase.engineer %>
+  <b>Assigned To:</b>
+  <%= @kase.assigned_to %>
+</p>
+<p>
+  <b>Owned By:</b>
+  <%= @kase.owned_by %>
+</p>
+<p>
+  <b>Insured Name:</b>
+  <%= @kase.insured_name %>
+</p>
+<p>
+  <b>Insured Address:</b>
+  <%= @kase.insured_address %>
+</p>
+<p>
+  <b>Insured City:</b>
+  <%= @kase.insured_city %>
+</p>
+<p>
+  <b>Insured State:</b>
+  <%= @kase.insured_state %>
+</p>
+<p>
+  <b>Insured Zipcode:</b>
+  <%= @kase.insured_zipcode %>
+</p>
+<p>
+  <b>Insured Phone No:</b>
+  <%= @kase.insured_phone_no %>
+</p>
+<p>
+  <b>Insured Email:</b>
+  <%= @kase.insured_email %>
+</p>
+<p>
+  <b>Date Of Loss:</b>
+  <%= @kase.date_of_loss %>
+</p>
+<p>
+  <b>Product:</b>
+  <%= @kase.product %>
+</p>
+<p>
+  <b>No Of Products:</b>
+  <%= @kase.no_of_products %>
+</p>
+<p>
+  <b>Manufacturer:</b>
+  <%= Manufacturer.find(@kase.manufacturer).name %>
+</p>
+<p>
+  <b>Additional Evidence:</b>
+  <%= @kase.additional_evidence %>
+</p>
+<p>
+  <b>Date Received:</b>
+  <%= @kase.date_received %>
+</p>
+<p>
+  <b>Promised By Date:</b>
+  <%= @kase.promised_by_date %>
+</p>
+<p>
+  <b>Date Sent:</b>
+  <%= @kase.date_sent %>
+</p>
+<p>
+  <b>Report Prepared By:</b>
+  <%= @kase.report_prepared_by %>
+</p>
+<p>
+  <b>Report Revised By:</b>
+  <%= @kase.report_revised_by %>
+</p>
+<p>
+  <b>Billed Until Date:</b>
+  <%= @kase.billed_until_date %>
+</p>
+<p>
+  <b>Type Of Report:</b>
+  <%= @kase.type_of_report %>
+</p>
+<p>
+  <b>Disposition:</b>
+  <%= @kase.disposition %>
+</p>
+<p>
+  <b>Delivered By:</b>
+  <%= @kase.delivered_by %>
 </p>
 
+<br />
 
 <%= link_to 'Edit', edit_kase_path(@kase) %>
+
+<br />
+<br />

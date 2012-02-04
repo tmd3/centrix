@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120201211446) do
+ActiveRecord::Schema.define(:version => 20120203205347) do
 
   create_table "ins_co_offices", :force => true do |t|
     t.string   "name"
@@ -35,12 +35,47 @@ ActiveRecord::Schema.define(:version => 20120201211446) do
   add_index "insurance_cos", ["url"], :name => "index_insurance_cos_on_url", :unique => true
 
   create_table "kases", :force => true do |t|
-    t.string   "claim_nr"
     t.integer  "rep"
-    t.integer  "insuree"
-    t.integer  "product"
     t.string   "status"
-    t.integer  "engineer"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "case_no"
+    t.string   "claim_no"
+    t.integer  "assigned_to"
+    t.integer  "owned_by"
+    t.string   "insured_name"
+    t.string   "insured_address"
+    t.string   "insured_city"
+    t.string   "insured_state"
+    t.string   "insured_zipcode"
+    t.string   "insured_phone_no"
+    t.string   "insured_email"
+    t.date     "date_of_loss"
+    t.string   "product"
+    t.string   "no_of_products"
+    t.integer  "manufacturer"
+    t.string   "additional_evidence"
+    t.date     "date_received"
+    t.date     "promised_by_date"
+    t.date     "date_sent"
+    t.integer  "report_prepared_by"
+    t.integer  "report_revised_by"
+    t.date     "billed_until_date"
+    t.string   "type_of_report"
+    t.string   "disposition"
+    t.string   "delivered_by"
+  end
+
+  create_table "manufacturers", :force => true do |t|
+    t.string   "name"
+    t.string   "brands"
+    t.integer  "parent_co"
+    t.string   "address_1"
+    t.string   "address_2"
+    t.string   "phone_no"
+    t.string   "fax_no"
+    t.string   "website"
+    t.string   "documents_and_manuals"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

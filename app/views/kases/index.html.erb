@@ -1,4 +1,5 @@
 <b>
+<%= link_to 'Manufacturers', manufacturers_path %> |
 <%= link_to 'Ins. Companies', insurance_cos_path %> |
 <%= link_to 'Ins. Co. Offices', ins_co_offices_path %> |
 <%= link_to 'Ins. Co. Reps', reps_path %>
@@ -10,25 +11,31 @@
 
 <table border="1">
   <tr>
-    <th>Claim nr</th>
+    <th>Case no</th>
+    <th>Claim no</th>
+    <th>Insured</th>
     <th>Rep</th>
-    <th>Insuree</th>
     <th>Product</th>
     <th>Status</th>
-    <th>Engineer</th>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>Assigned to</th>
+    <th>Owned by</th>
+    <th>Billed til</th>
+    <th>Est. cmpltn</th>
   </tr>
 
 <% @kases.each do |kase| %>
   <tr>
-    <td><%= kase.claim_nr %></td>
+    <td><%= kase.case_no %></td>
+    <td><%= kase.claim_no %></td>
+    <td><%= kase.insured_name %></td>
     <td><% rep = Rep.find(kase.rep) %> <%= link_to rep.name, rep %></td>
-    <td><%= kase.insuree %></td>
     <td><%= kase.product %></td>
     <td><%= kase.status %></td>
-    <td><%= kase.engineer %></td>
+    <td><%= kase.assigned_to %></td>
+    <td><%= kase.billed_until_date %></td>
+    <td><%= kase.promised_by_date %></td>
+    <td><%= kase.assigned_to %></td>
+    <td><%= kase.owned_by %></td>
     <td><%= link_to 'Show', kase %></td>
     <td><%= link_to 'Edit', edit_kase_path(kase) %></td>
     <td><%= link_to 'Destroy', kase, :confirm => 'Are you sure?', :method => :delete %></td>
