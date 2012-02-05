@@ -11,6 +11,8 @@ group :development do
     gem 'annotate'
 end
 
+gem "meta_search"
+
 # Use unicorn as the web server
 # gem 'unicorn'
 

@@ -1,0 +1,31 @@
+<%= render 'layouts/navigation_bar' %>
+
+<h1>Listing employees</h1>
+
+<table border="1">
+  <tr>
+    <th>Name</th>
+    <th>User ID</th>
+    <th>Level</th>
+    <th>Hire date</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @employees.each do |employee| %>
+  <tr>
+    <td><%= employee.name %></td>
+    <td><%= employee.user_id %></td>
+    <td><%= employee.level %></td>
+    <td><%= employee.hire_date %></td>
+    <td><%= link_to 'Show', employee %></td>
+    <td><%= link_to 'Edit', edit_employee_path(employee) %></td>
+    <td><%= link_to 'Destroy', employee, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Employee', new_employee_path %>

@@ -1,11 +1,4 @@
-<b>
-<%= link_to 'Manufacturers', manufacturers_path %> |
-<%= link_to 'Ins. Companies', insurance_cos_path %> |
-<%= link_to 'Ins. Co. Offices', ins_co_offices_path %> |
-<%= link_to 'Ins. Co. Reps', reps_path %>
-</b>
-<br />
-<br />
+<%= render 'layouts/navigation_bar' %>
 
 <h1>Cases</h1>
 
@@ -31,11 +24,10 @@
     <td><% rep = Rep.find(kase.rep) %> <%= link_to rep.name, rep %></td>
     <td><%= kase.product %></td>
     <td><%= kase.status %></td>
-    <td><%= kase.assigned_to %></td>
+    <td><%= Employee.find(kase.assigned_to).name %></td>
+    <td><%= Employee.find(kase.owned_by).name %></td>
     <td><%= kase.billed_until_date %></td>
     <td><%= kase.promised_by_date %></td>
-    <td><%= kase.assigned_to %></td>
-    <td><%= kase.owned_by %></td>
     <td><%= link_to 'Show', kase %></td>
     <td><%= link_to 'Edit', edit_kase_path(kase) %></td>
     <td><%= link_to 'Destroy', kase, :confirm => 'Are you sure?', :method => :delete %></td>

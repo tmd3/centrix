@@ -1,0 +1,27 @@
+<%= render 'layouts/navigation_bar' %>
+
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @employee.name %>
+</p>
+
+<p>
+  <b>User ID:</b>
+  <%= @employee.user_id %>
+</p>
+
+<p>
+  <b>Level:</b>
+  <%= @employee.level %>
+</p>
+
+<p>
+  <b>Hire date:</b>
+  <%= @employee.hire_date %>
+</p>
+
+<br />
+
+<%= link_to 'Edit', edit_employee_path(@employee) %>

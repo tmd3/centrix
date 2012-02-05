@@ -31,12 +31,16 @@
 
   <div class="field">
     <%= f.label      :assigned_to %><br />
-    <%= f.text_field :assigned_to %>
+    <% employee_names_and_ids = [] %>
+    <% Employee.all.each { |empl| employee_names_and_ids.push( [ empl.name, empl.id+0 ] ) } %>
+    <%= select( :kase, :assigned_to, employee_names_and_ids ) %>
   </div>
 
   <div class="field">
     <%= f.label      :owned_by %><br />
-    <%= f.text_field :owned_by %>
+    <% employee_names_and_ids = [] %>
+    <% Employee.all.each { |empl| employee_names_and_ids.push( [ empl.name, empl.id+0 ] ) } %>
+    <%= select( :kase, :owned_by, employee_names_and_ids ) %>
   </div>
 
   <div class="field">
@@ -83,7 +87,7 @@
 
   <div class="field">
     <%= f.label      :date_of_loss %><br />
-    <%= f.text_field :date_of_loss %>
+    <%= f.date_select :date_of_loss %>
   </div>
 
   <div class="field">
@@ -118,32 +122,36 @@
 
   <div class="field">
     <%= f.label      :date_received %><br />
-    <%= f.text_field :date_received %>
+    <%= f.date_select :date_received %>
   </div>
 
   <div class="field">
     <%= f.label      :promised_by_date %><br />
-    <%= f.text_field :promised_by_date %>
+    <%= f.date_select :promised_by_date %>
   </div>
 
   <div class="field">
     <%= f.label      :date_sent %><br />
-    <%= f.text_field :date_sent %>
+    <%= f.date_select :date_sent %>
   </div>
 
   <div class="field">
     <%= f.label      :report_prepared_by %><br />
-    <%= f.text_field :report_prepared_by %>
+    <% employee_names_and_ids = [] %>
+    <% Employee.all.each { |empl| employee_names_and_ids.push( [ empl.name, empl.id+0 ] ) } %>
+    <%= select( :kase, :report_prepared_by, employee_names_and_ids ) %>
   </div>
 
   <div class="field">
     <%= f.label      :report_revised_by %><br />
-    <%= f.text_field :report_revised_by %>
+    <% employee_names_and_ids = [] %>
+    <% Employee.all.each { |empl| employee_names_and_ids.push( [ empl.name, empl.id+0 ] ) } %>
+    <%= select( :kase, :report_revised_by, employee_names_and_ids ) %>
   </div>
 
   <div class="field">
     <%= f.label      :billed_until_date %><br />
-    <%= f.text_field :billed_until_date %>
+    <%= f.date_select :billed_until_date %>
   </div>
 
   <div class="field">

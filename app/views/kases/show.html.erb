@@ -21,11 +21,11 @@
 </p>
 <p>
   <b>Assigned To:</b>
-  <%= @kase.assigned_to %>
+  <%= Employee.find(@kase.assigned_to).name %>
 </p>
 <p>
   <b>Owned By:</b>
-  <%= @kase.owned_by %>
+  <%= Employee.find(@kase.owned_by).name %>
 </p>
 <p>
   <b>Insured Name:</b>
@@ -89,10 +89,11 @@
 </p>
 <p>
   <b>Report Prepared By:</b>
-  <%= @kase.report_prepared_by %>
+  <%= Employee.find(@kase.report_prepared_by).name %>
 </p>
 <p>
   <b>Report Revised By:</b>
+  <%= Employee.find(@kase.report_revised_by).name %>
   <%= @kase.report_revised_by %>
 </p>
 <p>
