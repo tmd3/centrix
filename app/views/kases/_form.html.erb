@@ -97,11 +97,18 @@
   </div>
 
   <div class="field">
-    <%= f.label      :manufacturer %><br />
-
     <% mfgr_names_and_ids = [] %>
     <% Manufacturer.all.each { |mfgr| mfgr_names_and_ids.push( [ mfgr.name, mfgr.id+0 ] ) } %>
-    <%= select( :kase, :manufacturer, mfgr_names_and_ids ) %>
+    <% if ( mfgr_names_and_ids.size > 0 ) %>
+    <%=    f.label :manufacturer %><br />
+    <%=    select( :kase, :manufacturer, mfgr_names_and_ids ) %>
+    <% else %>
+           <b>No manufacturers exist.</b>
+           You can create one by going <%= link_to "here", new_manufacturer_path %>, <br />
+           then using the "Back" feature of your browser to return to this page. <br />
+           If you still see this message, reload this page.
+           <br />
+    <% end %>
   </div>
 
   <div class="field">

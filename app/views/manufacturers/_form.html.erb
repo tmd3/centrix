@@ -20,8 +20,19 @@
     <%= f.text_field :brands %>
   </div>
   <div class="field">
-    <%= f.label :parent_co %><br />
-    <%= f.text_field :parent_co %>
+    <% mfgr_names_and_ids = [] %>
+    <% Manufacturer.all.each { |mfgr| mfgr_names_and_ids.push( [ mfgr.name, mfgr.id+0 ] ) } %>
+    <% mfgr_names_and_ids.push( [ "(NONE)", nil ] ) %>
+    <% if ( mfgr_names_and_ids.size > 0 ) %>
+    <%=    f.label :parent_co %><br />
+    <%=    select( :manufacturer, :parent_co, mfgr_names_and_ids ) %>
+    <% else %>
+           <b>No candidates for parent co. (i.e., manufacturers) exist.</b><br />
+           You are creating the first manufacturer. If you wish to give it a<br />
+           parent company, finish creating it, then create the parent company<br />
+           manufacturer, then edit this manufacturer and add the parent.
+           <br />
+    <% end %>
   </div>
   <div class="field">
     <%= f.label :address_1 %><br />
@@ -50,6 +61,6 @@
   <br />
   <br />
   <div class="actions">
-    <%= f.submit 'Create Manufacturer' %>
+    <%= f.submit 'Submit' %>
   </div>
 <% end %>

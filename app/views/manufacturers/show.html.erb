@@ -14,7 +14,12 @@
 
 <p>
   <b>Parent co:</b>
-  <%= @manufacturer.parent_co %>
+  <% if ( @manufacturer.parent_co == nil ) then %>
+         (NONE)
+  <% else %>
+         <% parent = Manufacturer.find(@manufacturer.parent_co) %>
+         <%= link_to parent.name, parent %>
+  <% end %>
 </p>
 
 <p>
@@ -39,7 +44,12 @@
 
 <p>
   <b>Website:</b>
-  <%= link_to @manufacturer.website, @manufacturer.website %>
+  <% if ( @manufacturer.website.length < 7  ||  @manufacturer.website[0..6] != "http://" ) then %>
+  <%     website_url = "http://" + @manufacturer.website %>
+  <% else                                                %>
+  <%     website_url = @manufacturer.website;            %>
+  <% end                                                 %>
+  <%= link_to @manufacturer.website, website_url %>
 </p>
 
 <p>
@@ -47,6 +57,6 @@
   <%= @manufacturer.documents_and_manuals %>
 </p>
 
+<br />
 
-<%= link_to 'Edit', edit_manufacturer_path(@manufacturer) %> |
-<%= link_to 'Back', manufacturers_path %>
+<%= link_to 'Edit', edit_manufacturer_path(@manufacturer) %>
