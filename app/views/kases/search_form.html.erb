@@ -1,4 +1,8 @@
-<%= form_for(@kase) do |f| %>
+<%= render 'layouts/navigation_bar' %>
+
+<h1>Search Cases</h1>
+
+<%= form_for( @kase, :url => '/kases/result', :html => { :method => :post } ) do |f| %>
 
   <% if @kase.errors.any? %>
     <div id="error_explanation">
@@ -13,22 +17,29 @@
 
   <div class="field">
     <%= f.label      :rep %><br />
-    <% rep_names_and_ids = [] %>
+    <% rep_names_and_ids = [ "", nil ] %>
     <% Rep.all.each { |r| rep_names_and_ids.push( [ r.name + ' -- ' + InsCoOffice.find(r.office).name, r.id+0 ] ) } %>
     <%= select( :kase, :rep, rep_names_and_ids ) %>
   </div>
 
   <div class="field">
     <%= f.label      :assigned_to %><br />
-    <% employee_names_and_ids = [] %>
-    <% Employee.all.each { |empl| employee_names_and_ids.push( [ empl.name, empl.id+0 ] ) } %>
+    <%  employee_names_and_ids = [ "", nil ] %>
+    <%  Employee.all.each { |empl| employee_names_and_ids.push( [ empl.name, empl.id+0 ] ) } %>
     <%= select( :kase, :assigned_to, employee_names_and_ids ) %>
   </div>
 
   <div class="field">
     <%= f.label      :status %><br />
-    <% stati = [ ["new","new"], ["examination","examination"], ["finish","finish"] ] %>
+    <%  stati = [ [ "", "" ], ["new","new"], ["examination","examination"], ["finish","finish"] ] %>
     <%= select( :kase, :status, stati ) %>
+  </div>
+
+  <div class="field">
+    <%= f.label      :manufacturer %><br />
+    <%  mfgr_names_and_ids = [ "", nil ] %>
+    <%  Manufacturer.all.each { |mfgr| mfgr_names_and_ids.push( [ mfgr.name, mfgr.id+0 ] ) } %>
+    <%= select( :kase, :manufacturer, mfgr_names_and_ids ) %>
   </div>
 
 <!--
@@ -100,21 +111,6 @@
   </div>
 
   <div class="field">
-    <% mfgr_names_and_ids = [] %>
-    <% Manufacturer.all.each { |mfgr| mfgr_names_and_ids.push( [ mfgr.name, mfgr.id+0 ] ) } %>
-    <% if ( mfgr_names_and_ids.size > 0 ) %>
-    <%=    f.label :manufacturer %><br />
-    <%=    select( :kase, :manufacturer, mfgr_names_and_ids ) %>
-    <% else %>
-           <b>No manufacturers exist.</b>
-           You can create one by going <%= link_to "here", new_manufacturer_path %>, <br />
-           then using the "Back" feature of your browser to return to this page. <br />
-           If you still see this message, reload this page.
-           <br />
-    <% end %>
-  </div>
-
-  <div class="field">
     <%= f.label      :additional_evidence %><br />
     <%= f.text_field :additional_evidence %>
   </div>
@@ -175,7 +171,7 @@
   <br />
 
   <div class="actions">
-    <%= f.submit "Update case"%>
+    <%= f.submit "Search"%>
   </div>
 
   <br />

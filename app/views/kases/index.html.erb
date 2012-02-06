@@ -10,8 +10,6 @@
     <th>Rep</th>
     <th>Product</th>
     <th>Status</th>
-    <th>Assigned to</th>
-    <th>Owned by</th>
     <th>Billed til</th>
     <th>Est. cmpltn</th>
   </tr>
@@ -24,8 +22,6 @@
     <td><% rep = Rep.find(kase.rep) %> <%= link_to rep.name, rep %></td>
     <td><%= kase.product %></td>
     <td><%= kase.status %></td>
-    <td><%= Employee.find(kase.assigned_to).name %></td>
-    <td><%= Employee.find(kase.owned_by).name %></td>
     <td><%= kase.billed_until_date %></td>
     <td><%= kase.promised_by_date %></td>
     <td><%= link_to 'Show', kase %></td>
