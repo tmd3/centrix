@@ -23,11 +23,7 @@
     <td><%= manufacturer.name %></td>
     <td><%= manufacturer.brands %></td>
     <td>
-      <% if ( manufacturer.parent_co == nil ) then %>
-           (NONE)
-      <% else %>
-           <%= Manufacturer.find(manufacturer.parent_co).name %>
-      <% end %>
+      <%= manufacturer.parent_co.is_a?(Integer) ? Manufacturer.find(manufacturer.parent_co).name : "" %>
     </td>
     <td><%= manufacturer.address_1 %></td>
     <td><%= manufacturer.address_2 %></td>
