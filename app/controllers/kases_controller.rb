@@ -80,4 +80,15 @@ class KasesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  def show_search_form
+    render 'search_form'
+  end
+
+  def show_search_result
+    condition_string = condition_string_for_search_params(params[:kase])
+    @kases = Kase.all(:conditions => condition_string)
+    render 'index'
+  end
+
 end

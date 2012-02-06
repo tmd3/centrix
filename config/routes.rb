@@ -12,11 +12,14 @@ Centrix::Application.routes.draw do
 
   resources :ins_co_offices
 
-  match '/ins_co_offices/for_co/:id' => 'ins_co_offices#show_for_parent'
-
+  match '/ins_co_offices/for_co/:id'     => 'ins_co_offices#show_for_parent'
   match '/ins_co_offices/new_for_co/:id' => 'ins_co_offices#new_for_parent'
 
   root :to => "insurance_cos#index"
+
+  match '/kases/search'        => 'kases#show_search_form'
+  match '/kases/search_result' => 'kases#show_search_result'
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

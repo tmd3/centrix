@@ -1,0 +1,183 @@
+<%= form_for(@kase) do |f| %>
+
+  <% if @kase.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@kase.errors.count, "error") %> prohibited this kase from being saved:</h2>
+      <ul>
+      <% @kase.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label      :rep %><br />
+    <% rep_names_and_ids = [] %>
+    <% Rep.all.each { |r| rep_names_and_ids.push( [ r.name + ' -- ' + InsCoOffice.find(r.office).name, r.id+0 ] ) } %>
+    <%= select( :kase, :rep, rep_names_and_ids ) %>
+  </div>
+
+  <div class="field">
+    <%= f.label      :assigned_to %><br />
+    <% employee_names_and_ids = [] %>
+    <% Employee.all.each { |empl| employee_names_and_ids.push( [ empl.name, empl.id+0 ] ) } %>
+    <%= select( :kase, :assigned_to, employee_names_and_ids ) %>
+  </div>
+
+  <div class="field">
+    <%= f.label      :status %><br />
+    <% stati = [ ["new","new"], ["examination","examination"], ["finish","finish"] ] %>
+    <%= select( :kase, :status, stati ) %>
+  </div>
+
+<!--
+  <div class="field">
+    <%= f.label      :case_no %><br />
+    <%= f.text_field :case_no %>
+  </div>
+
+  <div class="field">
+    <%= f.label      :claim_no %><br />
+    <%= f.text_field :claim_no %>
+  </div>
+
+  <div class="field">
+    <%= f.label      :owned_by %><br />
+    <% employee_names_and_ids = [] %>
+    <% Employee.all.each { |empl| employee_names_and_ids.push( [ empl.name, empl.id+0 ] ) } %>
+    <%= select( :kase, :owned_by, employee_names_and_ids ) %>
+  </div>
+
+  <div class="field">
+    <%= f.label      :insured_name %><br />
+    <%= f.text_field :insured_name %>
+  </div>
+
+  <div class="field">
+    <%= f.label      :insured_address %><br />
+    <%= f.text_field :insured_address %>
+  </div>
+
+  <div class="field">
+    <%= f.label      :insured_city %><br />
+    <%= f.text_field :insured_city %>
+  </div>
+
+  <div class="field">
+    <%= f.label      :insured_state %><br />
+    <%= f.text_field :insured_state %>
+  </div>
+
+  <div class="field">
+    <%= f.label      :insured_zipcode %><br />
+    <%= f.text_field :insured_zipcode %>
+  </div>
+
+  <div class="field">
+    <%= f.label      :insured_phone_no %><br />
+    <%= f.text_field :insured_phone_no %>
+  </div>
+
+  <div class="field">
+    <%= f.label      :insured_email %><br />
+    <%= f.text_field :insured_email %>
+  </div>
+
+  <div class="field">
+    <%= f.label      :date_of_loss %><br />
+    <%= f.date_select :date_of_loss %>
+  </div>
+
+  <div class="field">
+    <%= f.label      :product %><br />
+    <%= f.text_field :product %>
+  </div>
+
+  <div class="field">
+    <%= f.label      :no_of_products %><br />
+    <%= f.text_field :no_of_products %>
+  </div>
+
+  <div class="field">
+    <% mfgr_names_and_ids = [] %>
+    <% Manufacturer.all.each { |mfgr| mfgr_names_and_ids.push( [ mfgr.name, mfgr.id+0 ] ) } %>
+    <% if ( mfgr_names_and_ids.size > 0 ) %>
+    <%=    f.label :manufacturer %><br />
+    <%=    select( :kase, :manufacturer, mfgr_names_and_ids ) %>
+    <% else %>
+           <b>No manufacturers exist.</b>
+           You can create one by going <%= link_to "here", new_manufacturer_path %>, <br />
+           then using the "Back" feature of your browser to return to this page. <br />
+           If you still see this message, reload this page.
+           <br />
+    <% end %>
+  </div>
+
+  <div class="field">
+    <%= f.label      :additional_evidence %><br />
+    <%= f.text_field :additional_evidence %>
+  </div>
+
+  <div class="field">
+    <%= f.label      :date_received %><br />
+    <%= f.date_select :date_received %>
+  </div>
+
+  <div class="field">
+    <%= f.label      :promised_by_date %><br />
+    <%= f.date_select :promised_by_date %>
+  </div>
+
+  <div class="field">
+    <%= f.label      :date_sent %><br />
+    <%= f.date_select :date_sent %>
+  </div>
+
+  <div class="field">
+    <%= f.label      :report_prepared_by %><br />
+    <% employee_names_and_ids = [] %>
+    <% Employee.all.each { |empl| employee_names_and_ids.push( [ empl.name, empl.id+0 ] ) } %>
+    <%= select( :kase, :report_prepared_by, employee_names_and_ids ) %>
+  </div>
+
+  <div class="field">
+    <%= f.label      :report_revised_by %><br />
+    <% employee_names_and_ids = [] %>
+    <% Employee.all.each { |empl| employee_names_and_ids.push( [ empl.name, empl.id+0 ] ) } %>
+    <%= select( :kase, :report_revised_by, employee_names_and_ids ) %>
+  </div>
+
+  <div class="field">
+    <%= f.label      :billed_until_date %><br />
+    <%= f.date_select :billed_until_date %>
+  </div>
+
+  <div class="field">
+    <%= f.label      :type_of_report %><br />
+
+    <% report_types = [ ["Engineer","Engineer"], ["PE","PE"], ["Pe reviewed","Pe reviewed"], ["PhD", "PhD"] ] %>
+    <%= select( :kase, :type_of_report, report_types ) %>
+  </div>
+
+  <div class="field">
+    <%= f.label      :disposition %><br />
+    <%= f.text_field :disposition %>
+  </div>
+
+  <div class="field">
+    <%= f.label      :delivered_by %><br />
+    <%= f.text_field :delivered_by %>
+  </div>
+-->
+
+  <br />
+  <br />
+
+  <div class="actions">
+    <%= f.submit "Update case"%>
+  </div>
+
+  <br />
+
+<% end %>
