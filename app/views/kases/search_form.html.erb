@@ -19,9 +19,6 @@
     <%= f.label      :rep %><br />
 
     <% rep_names_and_ids = [ "", nil ] %>
-    <!--
-    <% Rep.all.each { |r| rep_names_and_ids.push( [ r.name + ' -- ' + InsCoOffice.find(r.office).name, r.id+0 ] ) } %>
-    -->
     <% Rep.all.each { |r| rep_names_and_ids.push( [ r.name , r.id+0 ] ) } %>
     <%= select( :kase, :rep, rep_names_and_ids ) %>
   </div>

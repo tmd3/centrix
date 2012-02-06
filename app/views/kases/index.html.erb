@@ -2,7 +2,7 @@
 
 <h1>Cases</h1>
 
-<table border="1">
+<table border="1" cellpadding="10">
   <tr>
     <th>Case no</th>
     <th>Claim no</th>
@@ -33,8 +33,8 @@
     <td><%= kase.billed_until_date %></td>
     <td><%= kase.promised_by_date %></td>
     <td>
-        <%= link_to 'Show', kase %> |
-        <%= link_to 'Edit', edit_kase_path(kase) %> |
+        <%= link_to 'Show', kase %> &nbsp; | &nbsp;
+        <%= link_to 'Edit', edit_kase_path(kase) %> &nbsp; | &nbsp;
         <%= link_to 'Destroy', kase, :confirm => 'Are you sure?', :method => :delete %>
     </td>
   </tr>
