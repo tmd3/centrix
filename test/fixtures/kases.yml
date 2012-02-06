@@ -1,21 +1,3 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
-one:
-  claim_nr: MyString
-  rep: 1
-  insuree: 1
-  product: 1
-  status: MyString
-  engineer: 1
-
-two:
-  claim_nr: MyString
-  rep: 1
-  insuree: 1
-  product: 1
-  status: MyString
-  engineer: 1
-
 # == Schema Information
 #
 # Table name: kases
@@ -50,5 +32,24 @@ two:
 #  type_of_report      :string(255)
 #  disposition         :string(255)
 #  delivered_by        :string(255)
+#  location            :string(255)
 #
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  claim_nr: MyString
+  rep: 1
+  insuree: 1
+  product: 1
+  status: MyString
+  engineer: 1
+
+two:
+  claim_nr: MyString
+  rep: 1
+  insuree: 1
+  product: 1
+  status: MyString
+  engineer: 1
 

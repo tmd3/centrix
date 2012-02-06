@@ -12,8 +12,10 @@
 </p>
 <p>
   <b>Rep:</b>
-  <% rep = Rep.find(@kase.rep) %>
-  <%= link_to rep.name, rep %>
+  <% if @kase.rep.is_a?(Integer) then %>
+      <% rep = Rep.find(@kase.rep) %>
+      <%= link_to rep.name, rep %>
+  <% end %>
 </p>
 <p>
   <b>Status:</b>
@@ -21,11 +23,19 @@
 </p>
 <p>
   <b>Assigned To:</b>
-  <%= Employee.find(@kase.assigned_to).name %>
+  <% assignee_id = @kase.assigned_to %>
+  <% if assignee_id.is_a?(Integer) then %>
+      <% assignee = Employee.find(assignee_id) %>
+      <%= link_to assignee.name, assignee %>
+  <% end %>
 </p>
 <p>
   <b>Owned By:</b>
-  <%= Employee.find(@kase.owned_by).name %>
+  <% owner_id = @kase.owned_by %>
+  <% if owner_id.is_a?(Integer) then %>
+      <% owner = Employee.find(owner_id) %>
+      <%= link_to owner.name, owner %>
+  <% end %>
 </p>
 <p>
   <b>Insured Name:</b>
@@ -69,7 +79,11 @@
 </p>
 <p>
   <b>Manufacturer:</b>
-  <%= Manufacturer.find(@kase.manufacturer).name %>
+  <% mfgr_id = @kase.manufacturer %>
+  <% if mfgr_id.is_a?(Integer) then %>
+      <% mfgr = Manufacturer.find(mfgr_id) %>
+      <%= link_to mfgr.name, mfgr %>
+  <% end %>
 </p>
 <p>
   <b>Additional Evidence:</b>
@@ -89,11 +103,19 @@
 </p>
 <p>
   <b>Report Prepared By:</b>
-  <%= Employee.find(@kase.report_prepared_by).name %>
+  <% reporter_id = @kase.report_prepared_by %>
+  <% if reporter_id.is_a?(Integer) then %>
+      <% reporter = Employee.find(reporter_id) %>
+      <%= link_to reporter.name, reporter %>
+  <% end %>
 </p>
 <p>
   <b>Report Revised By:</b>
-  <%= Employee.find(@kase.report_revised_by).name %>
+  <% editor_id = @kase.report_revised_by %>
+  <% if editor_id.is_a?(Integer) then %>
+      <% editor = Employee.find(editor_id) %>
+      <%= link_to editor.name, editor %>
+  <% end %>
 </p>
 <p>
   <b>Billed Until Date:</b>
@@ -106,6 +128,10 @@
 <p>
   <b>Disposition:</b>
   <%= @kase.disposition %>
+</p>
+<p>
+  <b>Location:</b>
+  <%= @kase.location %>
 </p>
 <p>
   <b>Delivered By:</b>

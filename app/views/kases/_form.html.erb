@@ -24,21 +24,23 @@
   <div class="field">
     <%= f.label      :rep %><br />
 
-    <% rep_names_and_ids = [] %>
+    <% rep_names_and_ids = [ "", nil ] %>
     <% Rep.all.each { |r| rep_names_and_ids.push( [ r.name + ' -- ' + InsCoOffice.find(r.office).name, r.id+0 ] ) } %>
     <%= select( :kase, :rep, rep_names_and_ids ) %>
   </div>
 
   <div class="field">
     <%= f.label      :assigned_to %><br />
-    <% employee_names_and_ids = [] %>
+
+    <% employee_names_and_ids = [ "", nil ] %>
     <% Employee.all.each { |empl| employee_names_and_ids.push( [ empl.name, empl.id+0 ] ) } %>
     <%= select( :kase, :assigned_to, employee_names_and_ids ) %>
   </div>
 
   <div class="field">
     <%= f.label      :owned_by %><br />
-    <% employee_names_and_ids = [] %>
+
+    <% employee_names_and_ids = [ "", nil ] %>
     <% Employee.all.each { |empl| employee_names_and_ids.push( [ empl.name, empl.id+0 ] ) } %>
     <%= select( :kase, :owned_by, employee_names_and_ids ) %>
   </div>
@@ -86,7 +88,7 @@
   </div>
 
   <div class="field">
-    <%= f.label      :date_of_loss %><br />
+    <%= f.label       :date_of_loss %><br />
     <%= f.date_select :date_of_loss %>
   </div>
 
@@ -121,36 +123,38 @@
   </div>
 
   <div class="field">
-    <%= f.label      :date_received %><br />
+    <%= f.label       :date_received %><br />
     <%= f.date_select :date_received %>
   </div>
 
   <div class="field">
-    <%= f.label      :promised_by_date %><br />
+    <%= f.label       :promised_by_date %><br />
     <%= f.date_select :promised_by_date %>
   </div>
 
   <div class="field">
-    <%= f.label      :date_sent %><br />
+    <%= f.label       :date_sent %><br />
     <%= f.date_select :date_sent %>
   </div>
 
   <div class="field">
     <%= f.label      :report_prepared_by %><br />
-    <% employee_names_and_ids = [] %>
+
+    <% employee_names_and_ids = [ "", nil ] %>
     <% Employee.all.each { |empl| employee_names_and_ids.push( [ empl.name, empl.id+0 ] ) } %>
     <%= select( :kase, :report_prepared_by, employee_names_and_ids ) %>
   </div>
 
   <div class="field">
     <%= f.label      :report_revised_by %><br />
-    <% employee_names_and_ids = [] %>
+
+    <% employee_names_and_ids = [ "", nil ] %>
     <% Employee.all.each { |empl| employee_names_and_ids.push( [ empl.name, empl.id+0 ] ) } %>
     <%= select( :kase, :report_revised_by, employee_names_and_ids ) %>
   </div>
 
   <div class="field">
-    <%= f.label      :billed_until_date %><br />
+    <%= f.label       :billed_until_date %><br />
     <%= f.date_select :billed_until_date %>
   </div>
 
@@ -163,7 +167,14 @@
 
   <div class="field">
     <%= f.label      :disposition %><br />
-    <%= f.text_field :disposition %>
+
+    <% dispositions = [ ["stored","stored"], ["returned","returned"], ["disposed","disposed"], ["shipped", "shipped"] ] %>
+    <%= select( :kase, :disposition, dispositions ) %>
+  </div>
+
+  <div class="field">
+    <%= f.label      :location %><br />
+    <%= f.text_field :location %>
   </div>
 
   <div class="field">

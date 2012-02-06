@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120205020751) do
+ActiveRecord::Schema.define(:version => 20120206194918) do
 
   create_table "employees", :force => true do |t|
     t.string   "name"
@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(:version => 20120205020751) do
     t.string   "type_of_report"
     t.string   "disposition"
     t.string   "delivered_by"
+    t.string   "location"
   end
 
   create_table "manufacturers", :force => true do |t|

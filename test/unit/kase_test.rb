@@ -1,12 +1,3 @@
-require 'test_helper'
-
-class KaseTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
-  test "the truth" do
-    assert true
-  end
-end
-
 # == Schema Information
 #
 # Table name: kases
@@ -41,5 +32,15 @@ end
 #  type_of_report      :string(255)
 #  disposition         :string(255)
 #  delivered_by        :string(255)
+#  location            :string(255)
 #
+
+require 'test_helper'
+
+class KaseTest < ActiveSupport::TestCase
+  # Replace this with your real tests.
+  test "the truth" do
+    assert true
+  end
+end
 

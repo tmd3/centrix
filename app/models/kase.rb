@@ -1,4 +1,3 @@
-
 # == Schema Information
 #
 # Table name: kases
@@ -33,7 +32,9 @@
 #  type_of_report      :string(255)
 #  disposition         :string(255)
 #  delivered_by        :string(255)
+#  location            :string(255)
 #
+
 
 class Kase < ActiveRecord::Base
 

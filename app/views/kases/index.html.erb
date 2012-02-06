@@ -10,8 +10,10 @@
     <th>Rep</th>
     <th>Product</th>
     <th>Status</th>
+    <th>Location</th>
     <th>Billed til</th>
     <th>Est. cmpltn</th>
+    <th>Operations</th>
   </tr>
 
 <% @kases.each do |kase| %>
@@ -19,14 +21,22 @@
     <td><%= kase.case_no %></td>
     <td><%= kase.claim_no %></td>
     <td><%= kase.insured_name %></td>
-    <td><% rep = Rep.find(kase.rep) %> <%= link_to rep.name, rep %></td>
+    <td>
+      <% if kase.rep.is_a?(Integer) then %>
+        <% rep = Rep.find(kase.rep) %>
+        <%= link_to rep.name, rep %>
+      <% end %>
+    </td>
     <td><%= kase.product %></td>
     <td><%= kase.status %></td>
+    <td><%= kase.location %></td>
     <td><%= kase.billed_until_date %></td>
     <td><%= kase.promised_by_date %></td>
-    <td><%= link_to 'Show', kase %></td>
-    <td><%= link_to 'Edit', edit_kase_path(kase) %></td>
-    <td><%= link_to 'Destroy', kase, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td>
+        <%= link_to 'Show', kase %> |
+        <%= link_to 'Edit', edit_kase_path(kase) %> |
+        <%= link_to 'Destroy', kase, :confirm => 'Are you sure?', :method => :delete %>
+    </td>
   </tr>
 <% end %>
 </table>

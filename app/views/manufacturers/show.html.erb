@@ -14,12 +14,7 @@
 
 <p>
   <b>Parent co:</b>
-  <% if ( @manufacturer.parent_co == nil ) then %>
-         (NONE)
-  <% else %>
-         <% parent = Manufacturer.find(@manufacturer.parent_co) %>
-         <%= link_to parent.name, parent %>
-  <% end %>
+  <%= @manufacturer.parent_co.is_a?(Integer) ? Manufacturer.find(@manufacturer.parent_co).name : "" %>
 </p>
 
 <p>
