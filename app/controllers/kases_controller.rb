@@ -5,6 +5,7 @@ class KasesController < ApplicationController
     @controller = 'index'
     @kases = Kase.all
     @condition_string = nil
+    @controller_method = 'index_method'
     render 'index'
   end
 
@@ -107,6 +108,7 @@ class KasesController < ApplicationController
       @controller = 'show_search_result'
       @condition_string = condition_string_for_search_params(params[:kase])
       @kases = Kase.all(:conditions => @condition_string)
+      @controller_method = 'show_search_result_method'
       render 'index'
   end
 
@@ -119,10 +121,10 @@ class KasesController < ApplicationController
           if kase.billed_until_date < now then
               @kases.push(kase)
           end
-          @kases.sort! { |a,b| a.billed_until_date <=> b.billed_until_date }
-          @kases.reverse!
       end
+      @kases.sort! { |a,b| a.billed_until_date <=> b.billed_until_date }
       @condition_string = nil
+      @controller_method = 'billed_until_date_passed_method'
       render 'index'
   end
 
