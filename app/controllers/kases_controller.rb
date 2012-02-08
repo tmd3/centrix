@@ -2,12 +2,10 @@ class KasesController < ApplicationController
   # GET /kases
   # GET /kases.xml
   def index
+    @controller = 'index'
     @kases = Kase.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @kases }
-    end
+    @condition_string = nil
+    render 'index'
   end
 
   # GET /kases/1
@@ -81,6 +79,7 @@ class KasesController < ApplicationController
     end
   end
 
+  # PUT /kases/search
   def show_search_form
     @kase = Kase.new
     render 'search_form'
@@ -103,10 +102,29 @@ class KasesController < ApplicationController
     return condition_string
   end
 
+  # GET /kases/result
   def show_search_result
-    condition_string = condition_string_for_search_params(params[:kase])
-    @kases = Kase.all(:conditions => condition_string)
-    render 'index'
+      @controller = 'show_search_result'
+      @condition_string = condition_string_for_search_params(params[:kase])
+      @kases = Kase.all(:conditions => @condition_string)
+      render 'index'
   end
+
+  # GET /kases/billed_until_passed
+  def billed_until_date_passed
+      now = Date.today
+      @kases = [ ]
+      Kase.all.each do
+          |kase|
+          if kase.billed_until_date < now then
+              @kases.push(kase)
+          end
+          @kases.sort! { |a,b| a.billed_until_date <=> b.billed_until_date }
+          @kases.reverse!
+      end
+      @condition_string = nil
+      render 'index'
+  end
+
 
 end

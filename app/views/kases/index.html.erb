@@ -1,6 +1,18 @@
 <%= render 'layouts/navigation_bar' %>
 
-<h1>Cases</h1>
+<% if @condition_string == nil %>
+  <h1>Cases</h1>
+<% else %>
+  <h1>Search Results</h1>
+  <b> <%= @kases.size %> cases were found. </b>
+  <br />
+  <br />
+  <!--
+  Search Constraints: <%= @search_params_for_display %>
+  <br />
+  <br />
+  -->
+<% end %>
 
 <table border="1" cellpadding="10">
   <tr>
@@ -34,7 +46,7 @@
     <td><%= kase.promised_by_date %></td>
     <td>
         <%= link_to 'Show', kase %> &nbsp; | &nbsp;
-        <%= link_to 'Edit', edit_kase_path(kase) %> &nbsp; | &nbsp;
+        <%= link_to 'Edit', edit_kase_path(kase) %> | &nbsp;
         <%= link_to 'Destroy', kase, :confirm => 'Are you sure?', :method => :delete %>
     </td>
   </tr>

@@ -6,6 +6,8 @@ Centrix::Application.routes.draw do
   match '/kases/result' => 'kases#show_search_result'
   match '/kases/search' => 'kases#show_search_form'
 
+  match '/kases/billed_until_date_passed' => 'kases#billed_until_date_passed'
+
   resources :employees
 
   resources :manufacturers
