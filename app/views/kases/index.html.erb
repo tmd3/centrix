@@ -14,6 +14,19 @@
   <h1>Cases</h1>
 <% end %>
 
+<style type="text/css">
+
+  .yellowBackground
+  {
+    background-color: yellow;
+  }
+  .pinkBackground
+  {
+    background-color: pink;
+  }
+
+</style>
+
 <table border="1" cellpadding="10">
   <tr>
     <th>Case no</th>
@@ -23,7 +36,11 @@
     <th>Product</th>
     <th>Status</th>
     <th>Location</th>
-    <th>Billed til</th>
+    <% if @controller_method == 'billed_until_date_passed_method' %>
+      <th class="yellowBackground">Billed til</th>
+    <% else %>
+      <th>Billed til</th>
+    <% end %>
     <th>Est. cmpltn</th>
     <th>Operations</th>
   </tr>
@@ -42,7 +59,11 @@
     <td><%= kase.product %></td>
     <td><%= kase.status %></td>
     <td><%= kase.location %></td>
-    <td><%= kase.billed_until_date %></td>
+    <% if @controller_method == 'billed_until_date_passed_method' %>
+      <td class="yellowBackground"><%= kase.billed_until_date %></td>
+    <% else %>
+      <td><%= kase.billed_until_date %></td>
+    <% end %>
     <td><%= kase.promised_by_date %></td>
     <td>
         <%= link_to 'Show', kase %> &nbsp; | &nbsp;
