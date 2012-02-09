@@ -1,12 +1,16 @@
 <b>
-<%= link_to 'Search', "/kases/search" %> &nbsp; | &nbsp;
-<%= link_to 'Cases', kases_path %> &nbsp; | &nbsp;
-<%= link_to 'Manufacturers', manufacturers_path %> &nbsp; | &nbsp;
-<%= link_to 'Ins. Companies', insurance_cos_path %> &nbsp; | &nbsp;
-<%= link_to 'Ins. Co. Offices', ins_co_offices_path %> &nbsp; | &nbsp;
-<%= link_to 'Ins. Co. Reps', reps_path %> &nbsp; | &nbsp;
-<%= link_to 'Employees', employees_path %> &nbsp; | &nbsp;
-<%= link_to 'Storage', '/kases/billed_until_date_passed' %>
+<%= form_tag("/kases/quick", :method => "get") do %>
+    <%= link_to 'Search', "/kases/search" %> &nbsp; | &nbsp;
+    <%= link_to 'Cases', kases_path %> &nbsp; | &nbsp;
+    <%= link_to 'Manufacturers', manufacturers_path %> &nbsp; | &nbsp;
+    <%= link_to 'Ins. Companies', insurance_cos_path %> &nbsp; | &nbsp;
+    <%= link_to 'Ins. Co. Offices', ins_co_offices_path %> &nbsp; | &nbsp;
+    <%= link_to 'Ins. Co. Reps', reps_path %> &nbsp; | &nbsp;
+    <%= link_to 'Employees', employees_path %> &nbsp; | &nbsp;
+    <%= link_to 'Storage', '/kases/billed_until_date_passed' %> &nbsp; | &nbsp;
+    <%= text_field_tag(:key) %>
+    <%= submit_tag("") %>
+<% end %>
 </b>
 <br />
 <br />

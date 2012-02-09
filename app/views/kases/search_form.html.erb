@@ -64,9 +64,17 @@
     <%= f.text_field :location %>
   </div>
 
+  <div class="field">
+    <%= f.label      :storage_volume %><br />
+    <%= f.text_field :storage_volume %>
+  </div>
 
-<!-- The following fields are NOT on the search form -- they are left over from when this file was created
-     as a copy of views/kases/index.html.erb.
+
+<!--
+     -----------------------------------------------------------------------------------------------------
+     The following fields are NOT on the search form -- they are left over from when this file was created
+     as a copy of views/kases/_form.html.erb.
+     -----------------------------------------------------------------------------------------------------
 
   <div class="field">
     <%= f.label      :billed_until_date %><br />

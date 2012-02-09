@@ -33,6 +33,7 @@
 #  disposition         :string(255)
 #  delivered_by        :string(255)
 #  location            :string(255)
+#  storage_volume      :string(255)
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

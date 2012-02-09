@@ -40,6 +40,7 @@
     <th>Product</th>
     <th>Status</th>
     <th>Location</th>
+    <th>Storage</th>
     <% if @controller_method == 'billed_until_date_passed_method' %>
       <th class="yellowBackground">Billed til</th>
     <% else %>
@@ -67,6 +68,7 @@
     <td><%= kase.product %></td>
     <td><%= kase.status %></td>
     <td><%= kase.location %></td>
+    <td><%= kase.storage_volume != nil ? kase.storage_volume + ' cu.ft.' : nil %></td>
     <% if @controller_method == 'billed_until_date_passed_method' %>
       <td class="yellowBackground"><%= kase.billed_until_date %></td>
     <% else %>

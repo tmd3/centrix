@@ -3,6 +3,7 @@ Centrix::Application.routes.draw do
   match '/ins_co_offices/for_co/:id'     => 'ins_co_offices#show_for_parent'
   match '/ins_co_offices/new_for_co/:id' => 'ins_co_offices#new_for_parent'
 
+  match '/kases/quick'  => 'kases#quick'
   match '/kases/result' => 'kases#show_search_result'
   match '/kases/search' => 'kases#show_search_form'
 

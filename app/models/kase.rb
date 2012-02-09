@@ -33,26 +33,10 @@
 #  disposition         :string(255)
 #  delivered_by        :string(255)
 #  location            :string(255)
+#  storage_volume      :string(255)
 #
 
 
 class Kase < ActiveRecord::Base
-
-    def condition_string_for_search_params(search_params)
-        condition_string = ""
-        search_params.each do
-            |key,value|
-            if value != "" then
-                if Kase.columns_hash[key].type != :integer then
-                    value = "'" + value + "'"
-                end
-                condition_string += key + "=" + value + " and "
-            end
-        end
-        if condition_string != "" then
-            condition_string += "0=0"
-        end
-        return condition_string
-    end
 
 end

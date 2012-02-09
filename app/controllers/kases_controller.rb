@@ -2,7 +2,6 @@ class KasesController < ApplicationController
   # GET /kases
   # GET /kases.xml
   def index
-    @controller = 'index'
     @kases = Kase.all
     @condition_string = nil
     @controller_method = 'index_method'
@@ -86,33 +85,44 @@ class KasesController < ApplicationController
     render 'search_form'
   end
 
+  #
+  #
   def condition_string_for_search_params(search_params)
-    condition_string = ""
-    search_params.each do
-      |key,value|
-      if value != "" then
-        if Kase.columns_hash[key].type != :integer then
-          if key == 'product' then
-              value = '%' + value + '%'
+
+      condition_string = ""
+
+      search_params.each do
+          |key,value|
+          if value != "" then
+              if Kase.columns_hash[key].type != :integer then
+                  if key == 'product' then
+                      condition_string += key + " LIKE '%" + value + "%' and "
+                  elsif key == 'storage_volume' then
+                      value = value.gsub( /  */, '')
+                      if value.match(/\d+-\d+/) != nil then
+                          limits = value.split( /-/ )
+                          condition_string += key + " >= " + limits[0] + " and " + key + " <= " + limits[1] + " and "
+                      else
+                          condition_string += key + "=" + value + " and "
+                      end
+                  else
+                      condition_string += key + "='" + value + "' and "
+                  end
+              end
           end
-          value = "'" + value + "'"
-        end
-        if key == 'product' then
-            condition_string += key + " LIKE " + value + " and "
-        else
-            condition_string += key + "=" + value + " and "
-        end
       end
-    end
-    if condition_string != "" then
-      condition_string.sub!(/ *and $/,'')
-    end
-    return condition_string
+
+      if condition_string != "" then
+          condition_string.sub!(/ *and $/,'')
+      end
+
+      return condition_string
+
   end
 
   # GET /kases/result
+  #
   def show_search_result
-      @controller = 'show_search_result'
       @condition_string = condition_string_for_search_params(params[:kase])
       @kases = Kase.all(:conditions => @condition_string)
       @controller_method = 'show_search_result_method'
@@ -120,6 +130,7 @@ class KasesController < ApplicationController
   end
 
   # GET /kases/billed_until_passed
+  #
   def billed_until_date_passed
       now = Date.today
       @kases = [ ]
@@ -135,5 +146,13 @@ class KasesController < ApplicationController
       render 'index'
   end
 
+  # GET /kases/quick
+  #
+  def quick
+      key = params[:key]
+      @kases = Kase.all(:conditions => "case_no LIKE '%" + key + "%' or claim_no LIKE '%" + key + "%' or insured_name LIKE '%" + key + "%'")
+      @controller_method = 'quick_method'
+      render 'index'
+  end
 
 end
