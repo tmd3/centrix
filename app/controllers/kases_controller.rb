@@ -92,13 +92,20 @@ class KasesController < ApplicationController
       |key,value|
       if value != "" then
         if Kase.columns_hash[key].type != :integer then
+          if key == 'product' then
+              value = '%' + value + '%'
+          end
           value = "'" + value + "'"
         end
-        condition_string += key + "=" + value + " and "
+        if key == 'product' then
+            condition_string += key + " LIKE " + value + " and "
+        else
+            condition_string += key + "=" + value + " and "
+        end
       end
     end
     if condition_string != "" then
-      condition_string += "0=0"
+      condition_string.sub!(/ *and $/,'')
     end
     return condition_string
   end
@@ -118,7 +125,7 @@ class KasesController < ApplicationController
       @kases = [ ]
       Kase.all.each do
           |kase|
-          if kase.billed_until_date < now then
+          if kase.billed_until_date != nil && (now - kase.billed_until_date).to_i > 90 then
               @kases.push(kase)
           end
       end

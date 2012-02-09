@@ -6,10 +6,10 @@
   <br />
   <br />
   <!--
-  Search Constraints: <%= @search_params_for_display %>
-  <br />
-  <br />
   -->
+  Search Constraints: <%= @condition_string %>
+  <br />
+  <br />
 <% else %>
   <h1>Cases</h1>
 <% end %>
@@ -23,6 +23,10 @@
   .pinkBackground
   {
     background-color: pink;
+  }
+  .blueBorder
+  {
+    border-color: blue;
   }
 
 </style>
@@ -41,13 +45,17 @@
     <% else %>
       <th>Billed til</th>
     <% end %>
-    <th>Est. cmpltn</th>
+    <th>Received</th>
     <th>Operations</th>
   </tr>
 
 <% @kases.each do |kase| %>
   <tr>
-    <td><%= kase.case_no %></td>
+    <% if kase.case_no == '' then %>
+      <td><%= kase.case_no %></td>
+    <% else %>
+      <td><%= link_to kase.case_no, kase %></td>
+    <% end %>
     <td><%= kase.claim_no %></td>
     <td><%= kase.insured_name %></td>
     <td>
@@ -64,7 +72,7 @@
     <% else %>
       <td><%= kase.billed_until_date %></td>
     <% end %>
-    <td><%= kase.promised_by_date %></td>
+    <td><%= kase.date_received %></td>
     <td>
         <%= link_to 'Show', kase %> &nbsp; | &nbsp;
         <%= link_to 'Edit', edit_kase_path(kase) %> | &nbsp;

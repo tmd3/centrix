@@ -48,7 +48,8 @@
   <div class="field">
     <%= f.label      :status %><br />
 
-    <% stati = [ ["new","new"], ["examination","examination"], ["finish","finish"] ] %>
+    <%  stati = [ [ "", "" ], ["new","new"], ["examination","examination"], [ "CPI","CPI" ],  [ "sent", "sent" ], %>
+    <%      [ "additional report","additional report" ], ["rebuttal","rebuttal"], ["testimony","testimony" ] ] %>
     <%= select( :kase, :status, stati ) %>
   </div>
 
@@ -89,7 +90,6 @@
 
   <div class="field">
     <%= f.label       :date_of_loss %><br />
-    <%= f.date_select :date_of_loss %>
     <%= f.text_field  :date_of_loss %>
   </div>
 
@@ -125,17 +125,17 @@
 
   <div class="field">
     <%= f.label       :date_received %><br />
-    <%= f.date_select :date_received %>
+    <%= f.text_field  :date_received %>
   </div>
 
   <div class="field">
     <%= f.label       :promised_by_date %><br />
-    <%= f.date_select :promised_by_date %>
+    <%= f.text_field  :promised_by_date %>
   </div>
 
   <div class="field">
-    <%= f.label       :date_sent %><br />
-    <%= f.date_select :date_sent %>
+    <%= f.label      :date_sent %><br />
+    <%= f.text_field :date_sent %>
   </div>
 
   <div class="field">
