@@ -39,4 +39,6 @@
 
 class Kase < ActiveRecord::Base
 
+    attr_accessible :storage_volume;
+
 end
