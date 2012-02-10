@@ -1,4 +1,4 @@
-class AddStorageVolumeToKase < ActiveRecord::Migration
+class AddStorageVolumeToKases < ActiveRecord::Migration
   def self.up
     add_column :kases, :storage_volume, :string
   end
