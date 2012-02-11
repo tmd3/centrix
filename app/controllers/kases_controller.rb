@@ -1,4 +1,5 @@
 class KasesController < ApplicationController
+
   # GET /kases
   # GET /kases.xml
   def index
@@ -38,6 +39,7 @@ class KasesController < ApplicationController
     case_id = KaseIdGenerator.new
     case_id.save
     prefix = case_id.id.to_s
+    while prefix.size < 3 do prefix = '0' + prefix end
     suffix = params[:kase][:case_no]
     params[:kase][:case_no] = prefix + '-' + suffix
     @kase = Kase.new(params[:kase])
@@ -62,6 +64,7 @@ class KasesController < ApplicationController
   def update
 
     prefix = params[:kase][:case_no_prefix]
+    while prefix.size < 3 do prefix = '0' + prefix end
     suffix = params[:kase][:case_no]
     params[:kase][:case_no] = prefix + '-' + suffix
     @kase = Kase.find(params[:id])
