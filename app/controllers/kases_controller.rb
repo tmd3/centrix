@@ -33,24 +33,12 @@ class KasesController < ApplicationController
   #     params[:kase][:case_no_prefix] == nil
   #     params[:kase][:case_no]        == <ins.co.office abbr.>
   #
-  # On entry from edit:
-  #     params[:kase][:case_no_prefix] == <case no. prefix>
-  #     params[:kase][:case_no]        == <ins.co.office abbr.>
-  #
   def create
-    if params[:kase][:case_no_prefix] == '(NEW)' then
-      # We came from a 'new' page..
-      case_id = KaseIdGenerator.new
-      case_id.save
-      prefix = case_id.id.to_s
-      params[:kase][:case_no_prefix] = 'NEW: prefix is "' + prefix + '"'
-    else
-      # We came from an 'edit' page..
-      prefix = params[:kase][:case_no_prefix]
-      params[:kase][:case_no_prefix] = 'EDIT: prefix is "' + prefix + '"'
-    end
+
+    case_id = KaseIdGenerator.new
+    case_id.save
+    prefix = case_id.id.to_s
     suffix = params[:kase][:case_no]
-    params[:kase][:case_no_prefix] += '; CREATE: suffix is "' + suffix + '"'
     params[:kase][:case_no] = prefix + '-' + suffix
     @kase = Kase.new(params[:kase])
 
@@ -61,17 +49,21 @@ class KasesController < ApplicationController
         format.html { render :action => "new" }
       end
     end
+
   end
 
-  # GET /kases/1/edit
-  def edit
-    @kase = Kase.find(params[:id])
-    @controller_method = 'edit_method'
-  end
 
   # PUT /kases/1
-  # PUT /kases/1.xml
+  #
+  # On entry from edit:
+  #     params[:kase][:case_no_prefix] == <case no. prefix>
+  #     params[:kase][:case_no]        == <ins.co.office abbr.>
+  #
   def update
+
+    prefix = params[:kase][:case_no_prefix]
+    suffix = params[:kase][:case_no]
+    params[:kase][:case_no] = prefix + '-' + suffix
     @kase = Kase.find(params[:id])
 
     respond_to do |format|
@@ -83,7 +75,16 @@ class KasesController < ApplicationController
         format.xml  { render :xml => @kase.errors, :status => :unprocessable_entity }
       end
     end
+
   end
+
+
+  # GET /kases/1/edit
+  def edit
+    @kase = Kase.find(params[:id])
+    @controller_method = 'edit_method'
+  end
+
 
   # DELETE /kases/1
   # DELETE /kases/1.xml
