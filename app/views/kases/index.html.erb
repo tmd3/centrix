@@ -52,7 +52,7 @@
 
 <% @kases.each do |kase| %>
   <tr>
-    <% if kase.case_no == '' then %>
+    <% if kase.case_no == nil then %>
       <td><%= kase.case_no %></td>
     <% else %>
       <td><%= link_to kase.case_no, kase %></td>
@@ -68,7 +68,7 @@
     <td><%= kase.product %></td>
     <td><%= kase.status %></td>
     <td><%= kase.location %></td>
-    <td><%= kase.storage_volume != nil ? kase.storage_volume + ' cu.ft.' : nil %></td>
+    <td><%= kase.storage_volume != nil ? kase.storage_volume + ' cu.ft.' : '' %></td>
     <% if @controller_method == 'billed_until_date_passed_method' %>
       <td class="yellowBackground"><%= kase.billed_until_date %></td>
     <% else %>
@@ -77,7 +77,7 @@
     <td><%= kase.date_received %></td>
     <td>
         <%= link_to 'Show', kase %> &nbsp; | &nbsp;
-        <%= link_to 'Edit', edit_kase_path(kase) %> | &nbsp;
+        <%= link_to 'Edit', edit_kase_path(kase) %> &nbsp; | &nbsp;
         <%= link_to 'Destroy', kase, :confirm => 'Are you sure?', :method => :delete %>
     </td>
   </tr>

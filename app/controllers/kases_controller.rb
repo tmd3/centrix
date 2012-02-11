@@ -20,35 +20,53 @@ class KasesController < ApplicationController
   end
 
   # GET /kases/new
-  # GET /kases/new.xml
+  #
   def new
     @kase = Kase.new
+    @controller_method = 'new_method'
+    render 'new'
+  end
+
+  # POST /kases
+  #
+  # On entry from new:
+  #     params[:kase][:case_no_prefix] == nil
+  #     params[:kase][:case_no]        == <ins.co.office abbr.>
+  #
+  # On entry from edit:
+  #     params[:kase][:case_no_prefix] == <case no. prefix>
+  #     params[:kase][:case_no]        == <ins.co.office abbr.>
+  #
+  def create
+    if params[:kase][:case_no_prefix] == '(NEW)' then
+      # We came from a 'new' page..
+      case_id = KaseIdGenerator.new
+      case_id.save
+      prefix = case_id.id.to_s
+      params[:kase][:case_no_prefix] = 'NEW: prefix is "' + prefix + '"'
+    else
+      # We came from an 'edit' page..
+      prefix = params[:kase][:case_no_prefix]
+      params[:kase][:case_no_prefix] = 'EDIT: prefix is "' + prefix + '"'
+    end
+    suffix = params[:kase][:case_no]
+    params[:kase][:case_no_prefix] += '; CREATE: suffix is "' + suffix + '"'
+    params[:kase][:case_no] = prefix + '-' + suffix
+    @kase = Kase.new(params[:kase])
 
     respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @kase }
+      if @kase.save
+        format.html { redirect_to(@kase, :notice => 'Case was successfully created.') }
+      else
+        format.html { render :action => "new" }
+      end
     end
   end
 
   # GET /kases/1/edit
   def edit
     @kase = Kase.find(params[:id])
-  end
-
-  # POST /kases
-  # POST /kases.xml
-  def create
-    @kase = Kase.new(params[:kase])
-
-    respond_to do |format|
-      if @kase.save
-        format.html { redirect_to(@kase, :notice => 'Case was successfully created.') }
-        format.xml  { render :xml => @kase, :status => :created, :location => @kase }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @kase.errors, :status => :unprocessable_entity }
-      end
-    end
+    @controller_method = 'edit_method'
   end
 
   # PUT /kases/1

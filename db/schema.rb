@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120209192513) do
+ActiveRecord::Schema.define(:version => 20120211155436) do
 
   create_table "employees", :force => true do |t|
     t.string   "name"
@@ -42,6 +42,11 @@ ActiveRecord::Schema.define(:version => 20120209192513) do
   end
 
   add_index "insurance_cos", ["url"], :name => "index_insurance_cos_on_url", :unique => true
+
+  create_table "kase_id_generators", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "kases", :force => true do |t|
     t.integer  "rep"
@@ -75,6 +80,7 @@ ActiveRecord::Schema.define(:version => 20120209192513) do
     t.string   "delivered_by"
     t.string   "location"
     t.string   "storage_volume"
+    t.string   "case_no_prefix"
   end
 
   create_table "manufacturers", :force => true do |t|
