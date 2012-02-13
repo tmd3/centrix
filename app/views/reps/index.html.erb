@@ -20,7 +20,7 @@
     <td><%= rep.tel_nr %></td>
     <td><%= rep.fax_nr %></td>
     <td><%= rep.email %></td>
-    <td><%= InsCoOffice.find(rep.office).name %></td>
+    <td><%= rep.office != nil ? InsCoOffice.find(rep.office).name : '' %></td>
     <td><%= link_to 'Show', rep %></td>
     <td><%= link_to 'Edit', edit_rep_path(rep) %></td>
     <td><%= link_to 'Destroy', rep, :confirm => 'Are you sure?', :method => :delete %></td>

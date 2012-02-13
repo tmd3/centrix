@@ -35,6 +35,7 @@
 #  location            :string(255)
 #  storage_volume      :string(255)
 #  case_no_prefix      :string(255)
+#  cause_of_failure    :string(255)
 #
 
 require 'test_helper'

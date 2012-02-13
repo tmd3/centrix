@@ -107,7 +107,11 @@ class KasesController < ApplicationController
     render 'search_form'
   end
 
-  #
+  # METHOD condition_string_for_search_params
+  # -----------------------------------------
+  # This method takes as input the params hash constructed by search_form.html.erb.
+  # As output, it produces a SQL query expression, suitable as the :conditions parameter
+  # in a Kase.all() invocation.
   #
   def condition_string_for_search_params(search_params)
 
@@ -120,6 +124,7 @@ class KasesController < ApplicationController
                   if key == 'product' then
                       condition_string += key + " LIKE '%" + value + "%' and "
                   elsif key == 'storage_volume' then
+                      # The storage volume search key can be a single value or a range, as in 3-5 for 3 or 4 or 5...
                       value = value.gsub( /  */, '')
                       if value.match(/\d+-\d+/) != nil then
                           limits = value.split( /-/ )
@@ -127,6 +132,9 @@ class KasesController < ApplicationController
                       else
                           condition_string += key + "=" + value + " and "
                       end
+                  elsif key == 'date_received' then
+                      # The value is really just a year -- we search for any case recived in that year...
+                      condition_string += key + " between '" + value + "-01-01' and '" + value + "-12-31'"
                   else
                       condition_string += key + "='" + value + "' and "
                   end

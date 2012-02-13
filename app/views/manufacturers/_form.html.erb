@@ -21,9 +21,8 @@
     <%= f.text_field :brands %>
   </div>
   <div class="field">
-    <%  mfgr_names_and_ids = [] %>
+    <%  mfgr_names_and_ids = [ "(NONE)", nil ] %>
     <%  Manufacturer.all.each { |mfgr| mfgr_names_and_ids.push( [ mfgr.name, mfgr.id+0 ] ) } %>
-    <%  mfgr_names_and_ids.push( [ "(NONE)", nil ] ) %>
     <%= f.label :parent_co %><br />
     <%= select( :manufacturer, :parent_co, mfgr_names_and_ids ) %>
   </div>

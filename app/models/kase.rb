@@ -35,6 +35,7 @@
 #  location            :string(255)
 #  storage_volume      :string(255)
 #  case_no_prefix      :string(255)
+#  cause_of_failure    :string(255)
 #
 
 
@@ -44,7 +45,7 @@ class Kase < ActiveRecord::Base
                     :insured_state, :insured_zipcode, :insured_phone_no, :insured_email, :date_of_loss, :product, :no_of_products,
                     :manufacturer, :additional_evidence, :date_received, :promised_by_date, :date_sent, :report_prepared_by,
                     :report_revised_by, :billed_until_date, :type_of_report, :disposition, :delivered_by, :location, :storage_volume,
-                    :case_no_prefix;
+                    :case_no_prefix, :cause_of_failure;
 
     validates :case_no, :presence => true;
 

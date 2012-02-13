@@ -39,6 +39,9 @@
     <th>Rep</th>
     <th>Product</th>
     <th>Status</th>
+    <th>Assigned to</th>
+    <th>Owned by</th>
+<!--
     <th>Location</th>
     <th>Storage</th>
     <% if @controller_method == 'billed_until_date_passed_method' %>
@@ -47,6 +50,7 @@
       <th>Billed til</th>
     <% end %>
     <th>Received</th>
+-->
     <th>Operations</th>
   </tr>
 
@@ -67,6 +71,9 @@
     </td>
     <td><%= kase.product %></td>
     <td><%= kase.status %></td>
+    <td><%= kase.assigned_to != nil ? Employee.find(kase.assigned_to).name : '' %></td>
+    <td><%= kase.owned_by    != nil ? Employee.find(kase.owned_by).name    : '' %></td>
+<!--
     <td><%= kase.location %></td>
     <td><%= kase.storage_volume != nil ? kase.storage_volume + ' cu.ft.' : '' %></td>
     <% if @controller_method == 'billed_until_date_passed_method' %>
@@ -75,6 +82,7 @@
       <td><%= kase.billed_until_date %></td>
     <% end %>
     <td><%= kase.date_received %></td>
+-->
     <td>
         <%= link_to 'Show', kase %> &nbsp; | &nbsp;
         <%= link_to 'Edit', edit_kase_path(kase) %> &nbsp; | &nbsp;

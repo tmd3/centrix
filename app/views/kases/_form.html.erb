@@ -139,6 +139,22 @@
   </div>
 
   <div class="field">
+    <%= f.label      :cause_of_failure %><br />
+
+    <% causes = [ %>
+    <%     [ "MD", "MD" ], %>
+    <%     [ "DD", "DD" ], %>
+    <%     [ "FI", "FI" ], %>
+    <%     [ "Trauma/Abuse", "Trauma/Abuse" ], %>
+    <%     [ "NDF", "NDF" ], %>
+    <%     [ "Age", "Age" ], %>
+    <%     [ "Underdetermined", "Underdetermined" ], %>
+    <%     [ "Other", "Other" ] %>
+    <% ] %>
+    <%= select( :kase, :cause_of_failure, causes ) %>
+  </div>
+
+  <div class="field">
     <%= f.label      :additional_evidence %><br />
     <%= f.text_field :additional_evidence %>
   </div>

@@ -24,8 +24,10 @@
 
 <p>
   <b>Office:</b>
-  <% office = InsCoOffice.find(@rep.office) %>
-  <%= link_to office.name, office %>
+  <% if @rep.office != nil then %>
+  <%     office = InsCoOffice.find(@rep.office) %>
+  <%=    link_to office.name, office %>
+  <% end %>
 </p>
 
 
