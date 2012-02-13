@@ -39,6 +39,7 @@ class KasesController < ApplicationController
     case_id = KaseIdGenerator.new
     case_id.save
     prefix = case_id.id.to_s
+    case_id.destroy
     while prefix.size < 3 do prefix = '0' + prefix end
     suffix = params[:kase][:case_no]
     params[:kase][:case_no] = prefix + '-' + suffix
