@@ -1,0 +1,393 @@
+-------------------------------------------------------------------------------------
+
+
+-------------------------------------------------------------------------------------
+
+FEATURES TO IMPLEMENT
+---------------------
+
+[x] delete record from case no generator after getting the id
+
+[x] case search key: year received
+
+[ ] add abbrev. to office table
+
+[ ] case search key: office -- abbrev?
+
+[ ] validations
+
+[ ] deal w dangling refs
+
+[x] cause of failure dropdown: MD, DD, FI, Trauma/Abuse, NDF, Age, Underdetermined, Other --
+    new field for case?
+
+[ ] brands listing -- on nav bar?
+
+[ ] audit trails for cases
+
+[ ] database save/restore
+
+[ ] login/logout
+
+[ ] notes field for cases
+
+[ ] single-case show/edit page with reorganized format a la Marcela
+
+TODO
+----
+
+[ ] For dropdown select, new should include blank (not specified), edit should have current value showing.
+    To do this, maybe the controller preps the names/ids array with the appropriate entry, and the edit/new erb file
+    should somehow fill out the array based on the 1st entry.
+
+-------------------------------------------------------------------------------------
+
+NEW FEATURE: USERS AND LOGIN/LOGOUT
+-----------------------------------
+
+We add the user/login feature. Users will constitute a new class/model/table.
+This table will have the following columns (in addition to those created by Rails):
+
+(1) user ID: this is not a name, but more like the UNIX user name -- maybe personal
+initials.
+
+(2) password: the "encrypted" password.
+
+(3) privileges: a string of privileges, comma-separated. One of these is "admin", which
+permits modification of the users tables.
+
+STEPS:
+------
+
+[ ] Create a scaffold for User:
+
+    rails generate scaffold User user_name:string password:string privileges:string
+
+[ ] Replace content of application_controller.rb with
+
+require 'digest/sha1'
+
+class ApplicationController < ActionController::Base
+
+    protect_from_forgery
+
+    before_filter :authenticate
+
+    def authenticate
+        authenticate_or_request_with_http_basic do
+            |username, password|
+            user = User.find_by_name(username)
+            user_is_authentic = user != nil && user.password == Digest::SHA1.hexdigest(password)
+        end
+        return user_is_authentic
+    end
+
+end
+
+[ ] Create 1st user via the rails console:
+
+        pwd=Digest::SHA1.hexdigest("osiris")
+        u1=User.new({:user_name=>"tmd",:password=>pwd,:privileges="god"})
+
+[ ] Require any user changing the user table to have proper privileges. Get user as follows:
+
+        username = ActionController::HttpAuthentication::Basic.user_name_and_password(request)[0]
+        @user = User.find_by_name(username)
+
+-------------------------------------------------------------------------------------
+
+NEW FEATURE: AUTO-GENERATE PREFIX NR FOR CASE NR
+------------------------------------------------
+
+1. User enters office abbr as case nr in 'new' form. Assign abbr when creating office?
+   ...new office column 'abbrev':
+
+    (a) rails generate migration add_abbreviation_to_ins_co_office abbreviation:string
+        rake db:migrate
+        annotate --position before
+
+    (b) update views
+
+2. Case nr suffix generated in create method if params has case_no key -- set case_no
+   value to <prefix>-params[:id][:case_no]
+
+-------------------------------------------------------------------------------------
+
+New page: show all offices for a company
+----------------------------------------
+
+1. invent a url for the page -- /ins_co_offices/for_co/:id
+2. add a route that links the url to a controller method --
+   match '/ins_co_offices/for_co/:id' => 'ins_co_offices#show_for_parent'
+3. create a view in offices -- show_for_parent.html.erb, a copy
+   of index.html.erb, differing only in the h1 command, which is
+   <h1>Listing of offices for <%= InsuranceCo.find(@ins_co_offices[0].parent_co).name %></h1>
+4. create a method in the offices controller, show_for_parent, a copy
+   of the index method, except that @ins_co_offices is set to
+   InsCoOffice.find_all_by_parent_co(params[:id])
+5. add a link on the companies view for "show" which is
+   <%= link_to 'Offices', "/ins_co_offices/for_co/#{@insurance_co.id}" %>
+
+-------------------------------------------------------------------------------------
+
+New page: expired billed-until cases
+------------------------------------
+
+[ ] Add route: match '/kases/billed_until_passed' => 'kases#billed_until_date_passed'
+
+[ ] Add link to nav bar: <%= link_to 'Billed-until Date Passed', '/kases/billed_until_date_passed' %>
+
+[ ] Add controller  method
+
+    # GET /kases/billed_until_passed
+    def billed_until_date_passed
+        now = Date.today
+        @kases = [ ]
+        Kase.all.each do
+            |kase|
+            billed_until_date = Date.parse(kase.billed_until_date)
+            if billed_until_date < now then
+                @kases.push(kase)
+            end
+        end
+        @condition_string = nil
+        render 'index'
+    end
+
+-------------------------------------------------------------------------------------
+
+New page: new office for company
+--------------------------------
+
+1. Invent a url for the page:
+
+       /ins_co_offices/new_for_co/:id
+
+2. Add a route that links the url to a controller method:
+
+       match '/ins_co_offices/new_for_co/:id' => 'ins_co_offices#new_for_parent'
+
+3. Add a method to the offices controller:
+
+      def new_for_parent
+
+          @parent_co = InsuranceCo.find(params[:id])
+          @ins_co_office = InsCoOffice.new
+          <% render 'new_for_parent' %>
+
+      end;
+
+4. Create a view in offices, new_for_parent.html.erb, a copy of _form.html.erb
+   except that the following line is prepended:
+
+       <h1>Create a New Office for <%= @parent_co.name %></h1>
+
+   and the parent co div is replaced by:
+
+       <%= f.hidden_field :parent_co, :value => @parent_co.id %>
+
+5. In the offices view show_for_parent.html.erb, change
+
+       <%= link_to 'New office', new_ins_co_office_path %>
+
+    to
+
+       <%= link_to 'New office', '/ins_co_offices/new_for_co/' + @insurance_co.id.to_s %>
+
+
+-------------------------------------------------------------------------------------
+New entity: representative
+-------------------------------------------------------------------------------------
+
+rails generate scaffold Rep name:string tel_nr:string fax_nr:string email:string office:integer
+
+        invoke  active_record
+        create    db/migrate/20120130183950_create_reps.rb
+        create    app/models/rep.rb
+        invoke    test_unit
+        create      test/unit/rep_test.rb
+        create      test/fixtures/reps.yml
+         route  resources :reps
+        invoke  scaffold_controller
+        create    app/controllers/reps_controller.rb
+        invoke    erb
+        create      app/views/reps
+        create      app/views/reps/index.html.erb
+        create      app/views/reps/edit.html.erb
+        create      app/views/reps/show.html.erb
+        create      app/views/reps/new.html.erb
+        create      app/views/reps/_form.html.erb
+        invoke    test_unit
+        create      test/functional/reps_controller_test.rb
+        invoke    helper
+        create      app/helpers/reps_helper.rb
+        invoke      test_unit
+        create        test/unit/helpers/reps_helper_test.rb
+        invoke  stylesheets
+
+rake db:migrate
+
+        ==  AddInsCoOfficeEmailUniquenessIndex: migrating =============================
+        ==  AddInsCoOfficeEmailUniquenessIndex: migrated (0.0000s) ====================
+
+        ==  SetInsCoOfficeAccessibility: migrating ====================================
+        ==  SetInsCoOfficeAccessibility: migrated (0.0000s) ===========================
+
+        ==  CreateReps: migrating =====================================================
+        -- create_table(:reps)
+           -> 0.0020s
+        ==  CreateReps: migrated (0.0020s) ============================================
+
+annotate --position before
+
+        Annotated (1): Rep
+
+<<
+  Add a link from the insurance-cos-display page to the new-rep page.
+  Change the new-rep page to show a dropdown for all insurance co offices.
+>>
+
+<< Add accessibility, validations to Rep model. >>
+
+rake db:test:prepare
+
+
+-------------------------------------------------------------------------------------
+new entity: case
+-------------------------------------------------------------------------------------
+
+WARNING!!! "case" is a Ruby keyword!
+
+$ rails generate scaffold Kase claim_nr:string rep:integer insuree:integer product:integer status:string engineer:integer
+
+        invoke  active_record
+        create    db/migrate/20120201181022_create_kases.rb
+        create    app/models/kase.rb
+        invoke    test_unit
+        create      test/unit/kase_test.rb
+        create      test/fixtures/kases.yml
+         route  resources :kases
+        invoke  scaffold_controller
+        create    app/controllers/kases_controller.rb
+        invoke    erb
+        create      app/views/kases
+        create      app/views/kases/index.html.erb
+        create      app/views/kases/edit.html.erb
+        create      app/views/kases/show.html.erb
+        create      app/views/kases/new.html.erb
+        create      app/views/kases/_form.html.erb
+        invoke    test_unit
+        create      test/functional/kases_controller_test.rb
+        invoke    helper
+        create      app/helpers/kases_helper.rb
+        invoke      test_unit
+        create        test/unit/helpers/kases_helper_test.rb
+        invoke  stylesheets
+        identical    public/stylesheets/scaffold.css
+
+$ rake db:migrate
+
+        ==  CreateKases: migrating ====================================================
+        -- create_table(:kases)
+           -> 0.0030s
+        ==  CreateKases: migrated (0.0030s) ===========================================
+
+-------------------------------------------------------------------------------------
+THE SEARCH PAGE
+-------------------------------------------------------------------------------------
+
+Kase.all(:conditions => "rep = 6 and engineer = 6")
+
+route:
+/search => kases#show_search_form
+/search/result => kases#show_search_result
+
+in the kases controller,
+
+    def show_search_form
+        <%= render 'search_form' %>
+    end
+
+_search_form.html.erb. is like _form.html.erb, except not all fields are present
+(only those to be keys), and the form_for() method has extra parameters
+":url => '/search/result', :html => { :method => :post }"
+
+in the kases controller, 
+
+    def condition_string_for_search_params(search_params)
+        condition_string = ""
+        search_params.each do
+            |key,value|
+            if value != "" then
+                if Kase.columns_hash[key].type != :integer then
+                    value = "'" + value + "'"
+                end
+                condition_string += key + "=" + value + " and "
+            end
+        end
+        condition_string += "0=0"
+        return condition_string
+    end
+
+    def show_search_result
+        condition_string = condition_string_for_search_params(params[:kase])
+        @kases = Kase.all(:conditions => condition_string)
+        <%= render 'index' %>
+    end
+
+
+-------------------------------------------------------------------------------------
+MISCELLANEOUS NOTES
+-------------------------------------------------------------------------------------
+
+/* NOTE: field types can be:
+:string, :text, :integer, :float, :decimal, :datetime, :timestamp, :time, :date,
+:binary, :boolean, :references */
+
+<b>
+<%= link_to 'Cases', kases_path %> |
+<%= link_to 'Manufacturers', manufacturers_path %> |
+<%= link_to 'Ins. Companies', insurance_cos_path %> |
+<%= link_to 'Ins. Co. Offices', ins_co_offices_path %> |
+<%= link_to 'Ins. Co. Reps', reps_path %>
+</b>
+<br />
+<br />
+
+<%= link_to 'Offices', "/ins_co_offices/for_co/#{@insurance_co.id}" %>
+
+/* NOTE: email_regex = /\A[\w+\-.]+@[a-z0-9\-.]+\.[a-z]+\z/i   */
+/* NOTE: url_regex =  /^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$/ix   */
+
+<%= render 'layouts/navigation_bar' %>
+
+<%= f.date_select :xxx %>
+
+    <div class="field">
+        <%= f.label :parent_co %><br />
+        <% ins_co_names_and_ids = [] %>
+        <% InsuranceCo.all.each { |co| ins_co_names_and_ids.push( [ co.name, co.id+0 ] ) } %>
+        <%= select( :ins_co_office, :parent_co, ins_co_names_and_ids ) %>
+    </div>
+
+<%-# commented line -%>
+
+
+        <%  prefix = @kase[:case_no].split('-')[0] %>
+        <%  suffix = @kase[:case_no].split('-')[1] %>
+        <%= f.hidden_field :case_no_prefix, :value => prefix %>
+        <%  @kase[:case_no] = suffix %>
+        <%= f.label :case_no %><br />
+        <%= prefix + '-' %>
+
+
+-------------------------------------------------------------------------------------
+
+
+
+heroku plugins:install git://github.com/ddollar/heroku-sql-console.git
+
+
+      user = User.find_by_name(username)
+      return user != nil  && user.password == Digest::SHA1.hexdigest(password)
+
