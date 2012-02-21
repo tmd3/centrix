@@ -10,7 +10,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120213180622) do
+ActiveRecord::Schema.define(:version => 20120220210713) do
+
+  create_table "case_notes", :force => true do |t|
+    t.text     "note_text"
+    t.integer  "kase"
+    t.integer  "author"
+    t.boolean  "public"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "employees", :force => true do |t|
     t.string   "name"

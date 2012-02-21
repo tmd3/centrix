@@ -1,5 +1,12 @@
 class KasesController < ApplicationController
 
+  def trace(msg)
+    STDERR.puts("\n****************************************\n")
+    STDERR.puts("TRACE: " + msg + "\n")
+    STDERR.puts("\n****************************************\n\n")
+    STDERR.flush
+  end
+
   # GET /kases
   # GET /kases.xml
   def index
@@ -13,6 +20,7 @@ class KasesController < ApplicationController
   # GET /kases/1.xml
   def show
     @kase = Kase.find(params[:id])
+    @previous_notes = string_of_all_notes_for_case(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -24,6 +32,7 @@ class KasesController < ApplicationController
   #
   def new
     @kase = Kase.new
+    @previous_notes = ""
     @controller_method = 'new_method'
     render 'new'
   end
@@ -44,9 +53,11 @@ class KasesController < ApplicationController
     suffix = params[:kase][:case_no]
     params[:kase][:case_no] = prefix + '-' + suffix
     @kase = Kase.new(params[:kase])
+    #trace("case ID = " + @kase.id.to_s)
 
     respond_to do |format|
       if @kase.save
+        save_case_note(@kase,params[:note])
         format.html { redirect_to(@kase, :notice => 'Case was successfully created.') }
       else
         format.html { render :action => "new" }
@@ -55,10 +66,23 @@ class KasesController < ApplicationController
 
   end
 
+  # METHOD save_case_note
+  # ---------------------
+  #
+  def save_case_note(kase,note_text)
+
+    if note_text != "" then
+      note = CaseNote.new
+      note.kase = kase.id
+      note.note_text = note_text
+      note.save
+    end
+
+  end
 
   # PUT /kases/1
   #
-  # On entry from edit:
+  # On entry from edit screen:
   #     params[:kase][:case_no_prefix] == <case no. prefix>
   #     params[:kase][:case_no]        == <ins.co.office abbr.>
   #
@@ -72,6 +96,7 @@ class KasesController < ApplicationController
 
     respond_to do |format|
       if @kase.update_attributes(params[:kase])
+        save_case_note(@kase,params[:note])
         format.html { redirect_to(@kase, :notice => 'Case was successfully updated.') }
         format.xml  { head :ok }
       else
@@ -83,10 +108,31 @@ class KasesController < ApplicationController
   end
 
 
+  def string_of_all_notes_for_case(case_record_id)
+
+    notes = ""
+    CaseNote.find_all_by_kase(params[:id],:order=>"created_at DESC").each do
+      |note|
+      notes += "\n\n" + "Written on " + note.created_at.to_s
+      if note.author != nil then
+        notes += " by " + User.find(note.author).name
+      end
+      notes += "\n" + note.note_text
+    end
+    return notes
+
+  end
+
   # GET /kases/1/edit
   def edit
+
     @kase = Kase.find(params[:id])
+    @previous_notes = string_of_all_notes_for_case(params[:id])
+    if @previous_notes == "" then
+      @previous_notes = "\r(NO NOTES)\n"
+    end
     @controller_method = 'edit_method'
+
   end
 
 
@@ -123,9 +169,12 @@ class KasesController < ApplicationController
           if value != "" then
               if Kase.columns_hash[key].type != :integer then
                   if key == 'product' then
+                      # The value for this key is a substring that is contained in the name(s) of
+                      # the desired product(s)...
                       condition_string += key + " LIKE '%" + value + "%' and "
                   elsif key == 'storage_volume' then
-                      # The storage volume search key can be a single value or a range, as in 3-5 for 3 or 4 or 5...
+                      # The value for this key can be a single value, such as '3', or a range, such '3-5',
+                      # standing for 3 or 4 or 5...
                       value = value.gsub( /  */, '')
                       if value.match(/\d+-\d+/) != nil then
                           limits = value.split( /-/ )
@@ -134,7 +183,8 @@ class KasesController < ApplicationController
                           condition_string += key + "=" + value + " and "
                       end
                   elsif key == 'date_received' then
-                      # The value is really just a year -- we search for any case recived in that year...
+                      # The value for this key is really just a year (see search_form.html.erb.).
+                      # We search for any case recived in that year...
                       condition_string += key + " between '" + value + "-01-01' and '" + value + "-12-31'"
                   else
                       condition_string += key + "='" + value + "' and "
@@ -144,6 +194,8 @@ class KasesController < ApplicationController
       end
 
       if condition_string != "" then
+          # If there were any conditions, there will be a dangling 'and' at the end of the
+          # conditions string. Here, we remove it.
           condition_string.sub!(/ *and $/,'')
       end
 

@@ -224,6 +224,20 @@
     <%= f.text_field :delivered_by %>
   </div>
 
+  <div class="field">
+    <label>NOTES</label><br />
+    <textarea name="note" cols="50" rows="10"></textarea>
+  </div>
+
+  <div class="field">
+    <% if @previous_notes != '' %>
+      <label>PREVIOUS NOTES</label><br />
+      <textarea cols="50" rows="10" readonly>
+        <%= @previous_notes %>
+      </textarea>
+    <% end %>
+  </div>
+
   <br />
   <br />
 

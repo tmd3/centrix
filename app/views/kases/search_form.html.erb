@@ -69,6 +69,10 @@
     <%= f.text_field :storage_volume %>
   </div>
 
+  <!--
+  NOTE: We are overloading this field for the purposes of the search controller method show_search_result.
+  We expect the user to enter a year here, not a day, month, and year.
+  -->
   <div class="field">
     <%= f.label      'Year received' %><br />
     <%= f.text_field :date_received %>
@@ -139,7 +143,7 @@
   </div>
 
   <div class="field">
-    <%= f.label       :date_of_loss %><br />
+    <%= f.label      :date_of_loss %><br />
     <%= f.text_field :date_of_loss %>
   </div>
 
@@ -154,17 +158,17 @@
   </div>
 
   <div class="field">
-    <%= f.label       :date_received %><br />
+    <%= f.label      :date_received %><br />
     <%= f.text_field :date_received %>
   </div>
 
   <div class="field">
-    <%= f.label       :promised_by_date %><br />
+    <%= f.label      :promised_by_date %><br />
     <%= f.text_field :promised_by_date %>
   </div>
 
   <div class="field">
-    <%= f.label       :date_sent %><br />
+    <%= f.label      :date_sent %><br />
     <%= f.text_field :date_sent %>
   </div>
 
@@ -193,6 +197,10 @@
     <%= f.label      :delivered_by %><br />
     <%= f.text_field :delivered_by %>
   </div>
+
+     -----------------------------------------------------------------------------------------------------
+     End of the fields from _form.html.erb that are NOT included in the search form.
+     -----------------------------------------------------------------------------------------------------
 -->
 
   <br />

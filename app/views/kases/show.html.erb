@@ -109,16 +109,16 @@
   <b>Report Prepared By:</b>
   <% reporter_id = @kase.report_prepared_by %>
   <% if reporter_id.is_a?(Integer) then %>
-      <% reporter = Employee.find(reporter_id) %>
-      <%= link_to reporter.name, reporter %>
+    <% reporter = Employee.find(reporter_id) %>
+    <%= link_to reporter.name, reporter %>
   <% end %>
 </p>
 <p>
   <b>Report Revised By:</b>
   <% editor_id = @kase.report_revised_by %>
   <% if editor_id.is_a?(Integer) then %>
-      <% editor = Employee.find(editor_id) %>
-      <%= link_to editor.name, editor %>
+    <% editor = Employee.find(editor_id) %>
+    <%= link_to editor.name, editor %>
   <% end %>
 </p>
 <p>
@@ -141,6 +141,16 @@
   <b>Delivered By:</b>
   <%= @kase.delivered_by %>
 </p>
+
+<p>
+  <% if @previous_notes != '' %>
+    <label>PREVIOUS NOTES</label><br />
+    <textarea cols="50" rows="10" readonly>
+      <%= @previous_notes %>
+    </textarea>
+  <% end %>
+</p>
+
 
 <br />
 

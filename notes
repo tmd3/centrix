@@ -33,12 +33,93 @@ FEATURES TO IMPLEMENT
 
 [ ] single-case show/edit page with reorganized format a la Marcela
 
-TODO
-----
-
 [ ] For dropdown select, new should include blank (not specified), edit should have current value showing.
     To do this, maybe the controller preps the names/ids array with the appropriate entry, and the edit/new erb file
     should somehow fill out the array based on the 1st entry.
+
+[ ] Add insurance cos to cases search page.
+
+[ ] how to reset case nr counter? allow explicit setting of case nr prefix?
+
+[ ] ?Marcela: how do nonemployees look at a case? show page?
+
+[ ] Ray: Implement enumeration types (case status, etc) as database tables.
+
+-------------------------------------------------------------------------------------
+
+NEW FEATURE: CASE NOTES
+-----------------------
+
+The feature requires
+
+(1) a text area on the case edit form in which a note can be entered;
+
+(2) a text area w elevator bar on the case edit form in which all previous notes
+    entered for that case are displayed, along with entering user and time/date of
+    entry.
+
+To implement this feature, the steps are:
+
+[x] Create a new table case_notes with fields note_text:text, kase:integer, author:integer,
+    public:boolean (and also the implicit timestamp):
+
+        rails generate model CaseNote note_text:text kase:integer author:integer public:boolean
+        rake db:migrate
+        annotate --position before
+
+[x] Make the fields, including the timestamp, accessible in the model class.
+
+[x] Add the following after the existing fields in views/kases/_form.html.erb:
+
+        <div class="field">
+          <label for="casenotes">NOTES</label><br />
+          <textarea id="casenotes" name="note" cols="50" rows="10"></textarea>
+        </div>
+
+        <div class="field">
+          <% if @previous_notes != '' %>
+            <label>PREVIOUS NOTES</label><br />
+            <textarea cols="50" rows="10" readonly>
+              <%= @previous_notes %>
+            </textarea>
+          <% end %>
+        </div>
+
+[ ] Add the following to the new method in controllers/kases_controller.rb:
+
+        @previous_notes = ""
+
+[ ] Add the following to the edit method in controllers/kases_controller.rb:
+
+        @previous_notes = ""
+        CaseNote.find_all_by_kase(params[:id]).each do
+          |note|
+          @previous_notes += "\n\n" + "Written on " + note.created_at.to_s
+          if note.author != nil then
+            @previous_notes += " by " + User.find(note.author).name
+          end
+          @previous_notes += "\n" + note.note_text
+        end
+        if @previous_notes == "" then
+          @previous_notes = "(No notes)\n"
+        end
+
+notes:
+* Ray says set text field length in migration file -- "t.string :text, :limit => 10000"
+
+-------------------------------------------------------------------------------------
+
+NEW FEATURE: INSURANCE CO. SEARCH KEY ON CASES SEARCH PAGE
+----------------------------------------------------------
+
+(1) We must add an ins.co. dropdown (with empty option) on the search page.
+
+(2) We must overload some kases field to capture any selected value. We choose
+    the case_no field, since this is a key for the "universal" search box.
+
+(3) In the kases controller, in the method condition_string_for_search_params(),
+    we must produce a search string term that finds all cases whose ins.co. is
+    the one specified by key 'case_no'.
 
 -------------------------------------------------------------------------------------
 
@@ -58,6 +139,8 @@ permits modification of the users tables.
 
 STEPS:
 ------
+
+NOTE: ?Marcela: What happens when a user leaves? employee goes away, rep goes to another co...
 
 [ ] Create a scaffold for User:
 
@@ -96,7 +179,7 @@ end
 
 -------------------------------------------------------------------------------------
 
-NEW FEATURE: AUTO-GENERATE PREFIX NR FOR CASE NR
+NEW FEATURE: AUTO-GENERATE PREFIX NR FOR CASE NR -- DONE
 ------------------------------------------------
 
 1. User enters office abbr as case nr in 'new' form. Assign abbr when creating office?
@@ -113,7 +196,7 @@ NEW FEATURE: AUTO-GENERATE PREFIX NR FOR CASE NR
 
 -------------------------------------------------------------------------------------
 
-New page: show all offices for a company
+NEW PAGE: SHOW ALL OFFICES FOR A COMPANY -- DONE
 ----------------------------------------
 
 1. invent a url for the page -- /ins_co_offices/for_co/:id
@@ -130,7 +213,7 @@ New page: show all offices for a company
 
 -------------------------------------------------------------------------------------
 
-New page: expired billed-until cases
+NEW PAGE: EXPIRED BILLED-UNTIL CASES -- DONE
 ------------------------------------
 
 [ ] Add route: match '/kases/billed_until_passed' => 'kases#billed_until_date_passed'
@@ -156,7 +239,7 @@ New page: expired billed-until cases
 
 -------------------------------------------------------------------------------------
 
-New page: new office for company
+NEW PAGE: NEW OFFICE FOR COMPANY -- DONE
 --------------------------------
 
 1. Invent a url for the page:
@@ -196,8 +279,9 @@ New page: new office for company
 
 
 -------------------------------------------------------------------------------------
-New entity: representative
--------------------------------------------------------------------------------------
+
+NEW ENTITY: REPRESENTATIVE -- DONE
+--------------------------
 
 rails generate scaffold Rep name:string tel_nr:string fax_nr:string email:string office:integer
 
@@ -253,8 +337,9 @@ rake db:test:prepare
 
 
 -------------------------------------------------------------------------------------
-new entity: case
--------------------------------------------------------------------------------------
+
+NEW ENTITY: CASE -- DONE
+----------------
 
 WARNING!!! "case" is a Ruby keyword!
 
@@ -293,8 +378,9 @@ $ rake db:migrate
         ==  CreateKases: migrated (0.0030s) ===========================================
 
 -------------------------------------------------------------------------------------
-THE SEARCH PAGE
--------------------------------------------------------------------------------------
+
+THE SEARCH PAGE -- DONE
+---------------
 
 Kase.all(:conditions => "rep = 6 and engineer = 6")
 
@@ -379,11 +465,6 @@ MISCELLANEOUS NOTES
         <%  @kase[:case_no] = suffix %>
         <%= f.label :case_no %><br />
         <%= prefix + '-' %>
-
-
--------------------------------------------------------------------------------------
-
-
 
 heroku plugins:install git://github.com/ddollar/heroku-sql-console.git
 

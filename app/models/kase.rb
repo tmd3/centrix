@@ -41,7 +41,7 @@
 
 class Kase < ActiveRecord::Base
 
-    attr_accessible :rep, :status, :case_no, :claim_no, :assigned_to, :owned_by, :insured_name, :insured_address, :insured_city,
+    attr_accessible :id, :rep, :status, :case_no, :claim_no, :assigned_to, :owned_by, :insured_name, :insured_address, :insured_city,
                     :insured_state, :insured_zipcode, :insured_phone_no, :insured_email, :date_of_loss, :product, :no_of_products,
                     :manufacturer, :additional_evidence, :date_received, :promised_by_date, :date_sent, :report_prepared_by,
                     :report_revised_by, :billed_until_date, :type_of_report, :disposition, :delivered_by, :location, :storage_volume,
