@@ -23,13 +23,11 @@ FEATURES TO IMPLEMENT
 
 [ ] brands listing -- on nav bar?
 
-[ ] audit trails for cases
-
 [ ] database save/restore
 
 [ ] login/logout
 
-[ ] notes field for cases
+[x] notes field for cases
 
 [ ] single-case show/edit page with reorganized format a la Marcela
 
@@ -39,7 +37,8 @@ FEATURES TO IMPLEMENT
 
 [ ] Add insurance cos to cases search page.
 
-[ ] how to reset case nr counter? allow explicit setting of case nr prefix?
+[ ] How to reset case nr counter? allow explicit setting of case nr prefix?
+    Ray: Drop the case_id table, recreate it.
 
 [ ] ?Marcela: how do nonemployees look at a case? show page?
 
@@ -47,7 +46,7 @@ FEATURES TO IMPLEMENT
 
 -------------------------------------------------------------------------------------
 
-NEW FEATURE: CASE NOTES
+NEW FEATURE: CASE NOTES -- DONE
 -----------------------
 
 The feature requires
@@ -85,11 +84,11 @@ To implement this feature, the steps are:
           <% end %>
         </div>
 
-[ ] Add the following to the new method in controllers/kases_controller.rb:
+[x] Add the following to the new method in controllers/kases_controller.rb:
 
         @previous_notes = ""
 
-[ ] Add the following to the edit method in controllers/kases_controller.rb:
+[x] Add the following to the edit method in controllers/kases_controller.rb:
 
         @previous_notes = ""
         CaseNote.find_all_by_kase(params[:id]).each do
@@ -103,6 +102,8 @@ To implement this feature, the steps are:
         if @previous_notes == "" then
           @previous_notes = "(No notes)\n"
         end
+
+[x] Add code to the kase controller update method.
 
 notes:
 * Ray says set text field length in migration file -- "t.string :text, :limit => 10000"

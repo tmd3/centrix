@@ -39,8 +39,12 @@
 
 <p>
   <b>Parent co:</b>
-  <% parent = InsuranceCo.find(@ins_co_office.parent_co) %>
-  <%= link_to parent.name, parent %>
+  <% if @ins_co_office.parent_co != nil then
+    <% parent = InsuranceCo.find(@ins_co_office.parent_co) %>
+    <%= link_to parent.name, parent %>
+  <% else %>
+     ""
+  <% end %>
 </p>
 
 
