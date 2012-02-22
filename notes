@@ -6,6 +6,8 @@
 FEATURES TO IMPLEMENT
 ---------------------
 
+[ ] Marcela: access level must be assigned to each FIELD of a case!
+
 [x] delete record from case no generator after getting the id
 
 [x] case search key: year received

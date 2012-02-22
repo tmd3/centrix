@@ -189,6 +189,8 @@ class KasesController < ApplicationController
                   else
                       condition_string += key + "='" + value + "' and "
                   end
+              else
+                  condition_string += key + "='" + value + "' and "
               end
           end
       end
